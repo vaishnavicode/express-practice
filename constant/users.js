@@ -1,0 +1,58 @@
+export const users = [
+  {
+    id: 1,
+    username: "test",
+    email: "test@test.com",
+    password: "test",
+    isAdmin: true,
+  },
+  {
+    id: 1733129738830,
+    username: "df",
+    email: "test@test.com",
+    password: "dfsg",
+    isAdmin: false,
+  },
+  {
+    id: 1733132167442,
+    username: "abc",
+    email: "abc@abc",
+    password: "abc",
+    isAdmin: false,
+  },
+  {
+    id: 1733135648153,
+    username: "xyz",
+    email: "xyz@xyz",
+    password: "xyz",
+    isAdmin: false,
+  },
+  {
+    id: 1733135875945,
+    username: "tre",
+    email: "tre@tre",
+    password: "tre",
+    isAdmin: false,
+  },
+  {
+    id: 1733136035992,
+    username: "tre",
+    email: "tre@tre",
+    password: "tre",
+    isAdmin: false,
+  },
+  {
+    id: 1733137001690,
+    username: "dhruv",
+    email: "dhruv@dhruv",
+    password: "dhruv",
+    isAdmin: false,
+  },
+  {
+    id: 1733139079775,
+    username: "pqr",
+    email: "pqr@pqr",
+    password: "pqr",
+    isAdmin: false,
+  },
+];
