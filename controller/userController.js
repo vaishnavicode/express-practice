@@ -1,33 +1,8 @@
 const users = require("../constant/users").users;
 const validateUser = require("../constant/validateUser").validateUser;
 const calculateAge = require("../constant/calculateAge").calculateAge;
-
+const { setCookies, clearAllCookies } = require("../constant/cookies");
 const fs = require("fs");
-
-const clearAllCookies = (req, res) => {
-  res.clearCookie("user");
-  return true;
-};
-
-const setCookies = (req, res, user) => {
-  res.cookie(
-    "user",
-    JSON.stringify({
-      userId: user.userId,
-      userName: user.userName,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      phone: user.phone,
-      dob: user.dob,
-      age: user.age,
-      address: user.address,
-      verified: user.verified,
-    }),
-    { maxAge: 900000, httpOnly: true }
-  );
-  return true;
-};
 
 const userLogin = (req, res) => {
   const { user, userPassword } = req.body;
@@ -92,9 +67,12 @@ const userSignUp = (req, res) => {
       "C:/Users/Ace PC37/Desktop/Temp/Express/page/constant/users.js",
       `export const users=${JSON.stringify(users)}`
     );
-  }
 
-  return res.redirect("/");
+    setCookies(req, res, users[users.length - 1]);
+    return res.redirect("/");
+  } else {
+    return res.redirect("/signup");
+  }
 };
 
 const userLogOut = (req, res) => {

@@ -15,8 +15,7 @@ const homePage = (req, res) => {
 };
 
 const userPage = (req, res) => {
-  var isAdmin = req.cookies.isadmin === "true";
-  if (isAdmin) {
+  if (req.cookies.user) {
     return res.render("users", { usersList: users });
   } else {
     return res.send("No authorisation!");
@@ -47,4 +46,33 @@ const userSignUpPage = (req, res) => {
   }
 };
 
-module.exports = { homePage, userPage, userLoginPage, userSignUpPage };
+const verificationPage = (req, res) => {
+  if (req.cookies.user) {
+    if (JSON.parse(req.cookies.user).verified) {
+      return res.render("error", {
+        heading: "Already Verified",
+        content: "Cannot verify again!",
+        back: "/",
+      });
+    }
+    return res.render("verify", {
+      send: req.cookies.otp ? true : false,
+      buttonText: req.cookies.send ? "Verify" : "Send OTP",
+      defaultEmail: req.cookies.user ? JSON.parse(req.cookies.user).email : "",
+    });
+  } else {
+    return res.render("error", {
+      heading: "Not Logged In",
+      content: "Cannot verify!",
+      back: "/",
+    });
+  }
+};
+
+module.exports = {
+  homePage,
+  userPage,
+  userLoginPage,
+  userSignUpPage,
+  verificationPage,
+};
