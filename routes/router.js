@@ -9,7 +9,7 @@ const {
   userSignUp,
   userLogOut,
 } = require("../controller/userController");
-
+const { verifyEmail } = require("../controller/verificationController");
 const express = require("express");
 const router = express.Router();
 
@@ -21,6 +21,7 @@ router.get("/signup", userSignUpPage);
 router.post("/signup", userSignUp);
 router.get("/users", userPage);
 router.get("/logout", userLogOut);
+router.get("/verify", verifyEmail);
 
 // Export the router
 module.exports = router;

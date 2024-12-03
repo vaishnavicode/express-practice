@@ -14,10 +14,14 @@ app.use(bodyParser.json());
 
 // Set view engine as EJS
 app.set("view engine", "ejs");
-
+app.use(express.static("public"));
 app.use("/", routes);
 app.use((req, res, next) => {
-  res.status(404).send("Sorry can't find that!");
+  res.render("error", {
+    heading: "404",
+    content: "Cannot find the page specified!",
+    back: "/",
+  });
 });
 
 // Start the server

@@ -1,0 +1,71 @@
+th {
+  text-align: left;
+  padding: 5px;
+}
+
+#datatable {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+div {
+  align-self: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  align-items: center;
+}
+
+button,
+#logout-link {
+  background-color: blueviolet;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+td {
+  border-bottom: 1px solid gray;
+  padding: 6px;
+  text-align: center;
+}
+
+tr:hover {
+  background-color: lavender;
+}
+
+th:hover {
+  background-color: lavenderblush;
+}
+
+button:hover {
+  background-color: red;
+}
+
+input {
+  font-size: 16px; /* Increase font size */
+  height: 20px; /* Set a larger height */
+  width: 100%; /* Make the input field take up the full width */
+}
+
+.navbar {
+  overflow: hidden; /* Clear floats */
+  display: flex;
+  justify-content: space-between; /* Space out the elements */
+  padding: 14px 20px; /* Add padding around the navbar */
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
+}
+#logout-link {
+  color: white;
+}
+#verification-link {
+  margin-left: auto;
+  padding: 10px;
+}

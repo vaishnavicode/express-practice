@@ -2,9 +2,16 @@ const users = require("../constant/users").users;
 const connection = require("../database/connection");
 
 const homePage = (req, res) => {
-  return res.render("home", {
-    username: req.cookies.username ? req.cookies.username : "User",
-  });
+  if (req.cookies.user) {
+    var user = JSON.parse(req.cookies.user);
+    return res.render("users", {
+      usersList: users,
+      userName: user.userName,
+      verified: user.verified,
+    });
+  } else {
+    return res.redirect("/login");
+  }
 };
 
 const userPage = (req, res) => {
@@ -17,11 +24,27 @@ const userPage = (req, res) => {
 };
 
 const userLoginPage = (req, res) => {
-  return res.render("login");
+  if (req.cookies.userName) {
+    return res.render("error", {
+      heading: "Already logged in",
+      content: "You are already logged in",
+      back: "/",
+    });
+  } else {
+    return res.render("login");
+  }
 };
 
 const userSignUpPage = (req, res) => {
-  return res.render("signup");
+  if (req.cookies.userName) {
+    return res.render("error", {
+      heading: "Already logged in",
+      content: "You are already logged in",
+      back: "/",
+    });
+  } else {
+    return res.render("signup");
+  }
 };
 
 module.exports = { homePage, userPage, userLoginPage, userSignUpPage };

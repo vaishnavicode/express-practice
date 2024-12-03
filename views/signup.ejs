@@ -3,25 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles.css" />
     <title>Signup</title>
   </head>
   <body>
-    <h1>Signup</h1>
-
-    <form action="/signup" method="POST">
-      <label for="userName">Name:</label>
-      <input type="text" id="userName" name="userName" required />
-      <br /><br />
-
-      <label for="userEmail">Email:</label>
-      <input type="email" id="userEmail" name="userEmail" required />
-      <br /><br />
-
-      <label for="userPassword">Password:</label>
-      <input id="userPassword" name="userPassword" type="password" required />
-      <br /><br />
-
-      <button type="submit">Submit</button>
-    </form>
+    <center>
+      <form action="/signup" method="POST">
+        <h2>Signup</h2>
+        <table>
+          <tr>
+            <th><label for="firstName">Name:</label></th>
+            <td><input type="text" name="firstName" /></td>
+          </tr>
+          <tr>
+            <th><label for="lastName">Surname:</label></th>
+            <td><input type="text" name="lastName" /></td>
+          </tr>
+          <tr>
+            <th><label for="userName">Username:</label></th>
+            <td><input type="text" name="userName" /></td>
+          </tr>
+          <tr>
+            <th><label for="email">Email:</label></th>
+            <td><input type="email" name="email" /></td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <th><label for="phone">Phone:</label></th>
+            <td><input type="text" name="phone" /></td>
+          </tr>
+          <tr>
+            <th><label for="dob">DOB:</label></th>
+            <td><input type="date" name="dob" /></td>
+          </tr>
+          <tr>
+            <th><label for="address">Address:</label></th>
+            <td><input type="text" name="address" /></td>
+          </tr>
+          <tr>
+            <th><label for="password">Password:</label></th>
+            <td><input type="password" name="password" /></td>
+          </tr>
+          <tr>
+            <th><label for="confirmPassword">Confirm Password:</label></th>
+            <td><input type="password" name="confirmPassword" /></td>
+          </tr>
+          <tr>
+            <td colspan="2"><button type="submit">Submit</button></td>
+          </tr>
+          <tr>
+            <td colspan="2"><a href="/login">Already have an account?</a></td>
+          </tr>
+        </table>
+      </form>
+    </center>
   </body>
 </html>

@@ -3,26 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles.css" />
+
     <title>Users</title>
   </head>
   <body>
-    <h1>Users</h1>
+    <div class="navbar">
+      <h2 id="heading">Welcome <%= userName %></h2>
+      <% if(!verified) { %>
+      <a href="/verify" id="verification-link">Verify Your Email</a>
 
-    <table title="Data" id="datatable">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% usersList.forEach(function(user) { %>
-        <tr>
-          <td><%= user.username %></td>
-          <td><%= user.email %></td>
-        </tr>
-        <% }); %>
-      </tbody>
-    </table>
+      <% }; %>
+      <a href="/logout" id="logout-link">Logout</a>
+    </div>
+
+    <center>
+      <table title="Data" id="datatable">
+        <h1>Users</h1>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Username</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>DOB</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% usersList.forEach(function(user) { %>
+          <tr>
+            <td><%= user.userId %></td>
+            <td><%= user.firstName %></td>
+            <td><%= user.lastName %></td>
+            <td><%= user.userName %></td>
+            <td><%= user.phone %></td>
+            <td><%= user.email %></td>
+            <td><%= user.dob %></td>
+            <td><%= user.address %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </center>
   </body>
 </html>
