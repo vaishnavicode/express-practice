@@ -1,7 +1,13 @@
-export const getUsers = (error, results) => {
-  if (error) {
-    console.error("Error fetching users from the database: " + error.stack);
-    return res.status(500).json({ error: "Failed to fetch users" });
-  }
-  return results;
+const connection = require("../database/connection");
+
+const getUsers = (callback) => {
+  connection.query("SELECT * from users", (err, result) => {
+    if (err) {
+      console.error("Error fetching users: ", err);
+      return callback(err, null);
+    }
+    return callback(null, result);
+  });
 };
+
+module.exports = { getUsers };

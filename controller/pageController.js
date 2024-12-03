@@ -1,25 +1,22 @@
-const users = require("../constant/users").users;
-const connection = require("../database/connection");
+const { getUsers } = require("../models/getUsers");
 
 const homePage = (req, res) => {
-  if (req.cookies.user) {
-    var user = JSON.parse(req.cookies.user);
-    return res.render("users", {
-      usersList: users,
-      userName: user.userName,
-      verified: user.verified,
-    });
-  } else {
-    return res.redirect("/login");
-  }
-};
+  getUsers((err, users) => {
+    if (err) {
+      return res.status(500).send("Error retrieving users");
+    }
 
-const userPage = (req, res) => {
-  if (req.cookies.user) {
-    return res.render("users", { usersList: users });
-  } else {
-    return res.send("No authorisation!");
-  }
+    if (req.cookies.user) {
+      const user = JSON.parse(req.cookies.user);
+      return res.render("users", {
+        usersList: users,
+        userName: user.userName,
+        verified: user.verified,
+      });
+    } else {
+      return res.redirect("/login");
+    }
+  });
 };
 
 const userLoginPage = (req, res) => {
@@ -71,7 +68,6 @@ const verificationPage = (req, res) => {
 
 module.exports = {
   homePage,
-  userPage,
   userLoginPage,
   userSignUpPage,
   verificationPage,

@@ -1,28 +1,35 @@
-const users = require("../constant/users").users;
 const validateUser = require("../constant/validateUser").validateUser;
 const calculateAge = require("../constant/calculateAge").calculateAge;
 const { setCookies, clearAllCookies } = require("../constant/cookies");
-const fs = require("fs");
+const { getUsers } = require("../models/getUsers");
+const { postUser } = require("../models/postUser");
 
 const userLogin = (req, res) => {
   const { user, userPassword } = req.body;
 
-  for (let index of users) {
-    if (
-      (user === index.email || user === index.userName) &&
-      userPassword == index.password
-    ) {
-      setCookies(req, res, index);
-
-      return res.redirect("/");
+  getUsers((err, users) => {
+    if (err) {
+      return res.status(500).send("Error retrieving users");
     }
-  }
 
-  return res.redirect("/login");
+    for (let index of users) {
+      if (
+        (user === index.email || user === index.userName) &&
+        userPassword === index.password
+      ) {
+        setCookies(req, res, index);
+        return res.redirect("/");
+      }
+    }
+
+    return res.redirect("/login");
+  });
 };
 
 const userSignUp = (req, res) => {
   clearAllCookies(req, res);
+
+  // Destructure user details from the request body
   const {
     firstName,
     lastName,
@@ -35,6 +42,7 @@ const userSignUp = (req, res) => {
     confirmPassword,
   } = req.body;
 
+  // Create user object
   var user = {
     userName: userName,
     firstName: firstName,
@@ -45,31 +53,20 @@ const userSignUp = (req, res) => {
     phone: phone,
     dob: dob,
     address: address,
+    age: calculateAge(dob),
+    isAdmin: false,
+    verified: false,
   };
 
   if (!validateUser(user)) {
-    users.push({
-      userId: new Date().getTime(),
-      userName: userName,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      phone: phone,
-      dob: dob,
-      age: calculateAge(dob),
-      address: address,
-      isAdmin: false,
-      verified: false,
-    });
+    postUser((err, success) => {
+      if (err) {
+        return res.status(500).send("Error registering user.");
+      }
 
-    fs.writeFileSync(
-      "C:/Users/Ace PC37/Desktop/Temp/Express/page/constant/users.js",
-      `export const users=${JSON.stringify(users)}`
-    );
-
-    setCookies(req, res, users[users.length - 1]);
-    return res.redirect("/");
+      setCookies(req, res, user);
+      return res.redirect("/");
+    }, user);
   } else {
     return res.redirect("/signup");
   }

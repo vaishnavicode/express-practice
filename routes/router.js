@@ -1,6 +1,5 @@
 const {
   homePage,
-  userPage,
   userSignUpPage,
   userLoginPage,
   verificationPage,
@@ -26,7 +25,6 @@ router.get("/login", userLoginPage);
 router.post("/login", userLogin);
 router.get("/signup", userSignUpPage);
 router.post("/signup", userSignUp);
-router.get("/users", userPage);
 router.get("/logout", userLogOut);
 router.get("/verify", verificationPage);
 router.post("/verify", verifyEmail);
