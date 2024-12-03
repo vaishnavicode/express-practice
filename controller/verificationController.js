@@ -34,8 +34,8 @@ const verifyEmail = (req, res) => {
     const { email } = req.body;
     var otp = generateRandomOtp(6);
     sendMail(req, res, otp, email);
-    res.cookie("otp", otp);
-    res.cookie("email", email);
+    res.cookie("otp", otp, { expire: 120000 + Date.now() });
+    res.cookie("email", email, { expire: 120000 + Date.now() });
     return res.redirect("/verify");
   }
 };

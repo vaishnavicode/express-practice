@@ -20,7 +20,7 @@ const setCookies = (req, res, user) => {
       address: user.address,
       verified: user.verified,
     }),
-    { maxAge: 900000 }
+    { expire: 900000 + Date.now() }
   );
   return true;
 };

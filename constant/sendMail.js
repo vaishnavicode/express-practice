@@ -14,7 +14,7 @@ const sendMail = (req, res, otp, email) => {
     from: "dummytest0094@gmail.com",
     to: `${email}`,
     subject: "OTP for Verification",
-    text: `Your otp : ${otp}`,
+    text: `Your otp : ${otp}. It will be valid for two minutes.`,
   };
   auth.sendMail(receiver, (error, emailResponse) => {
     if (error) throw error;
