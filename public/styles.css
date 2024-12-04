@@ -17,7 +17,7 @@ div {
 }
 
 button,
-#logout-link {
+.loginOrNot {
   background-color: blueviolet;
   border: none;
   color: white;
@@ -26,6 +26,21 @@ button,
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  margin: 5px;
+}
+
+#login-button:hover,
+.loginOrNot:hover {
+  background-color: red;
+  color: white;
+  border: 2px solid red;
+}
+
+#login-button {
+  background-color: white;
+  color: blueviolet;
+  border: 2px solid blueviolet;
+  border-radius: 10%;
 }
 
 td {
@@ -62,10 +77,9 @@ input {
 a {
   text-decoration: none;
 }
-#logout-link {
+.loginOrNot {
   color: white;
 }
 #verification-link {
   margin-left: auto;
-  padding: 10px;
 }

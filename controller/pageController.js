@@ -8,13 +8,45 @@ const homePage = (req, res) => {
 
     if (req.cookies.user) {
       const user = JSON.parse(req.cookies.user);
-      return res.render("users", {
-        usersList: users,
+      return res.render("home", {
         userName: user.userName,
         verified: user.verified,
+        loggedIn: true,
       });
     } else {
-      return res.redirect("/login");
+      return res.render("home", {
+        userName: "User",
+        verified: false,
+        loggedIn: false,
+      });
+    }
+  });
+};
+
+const userPage = (req, res) => {
+  getUsers((err, users) => {
+    if (err) {
+      return res.status(500).send("Error retrieving users");
+    }
+
+    if (req.cookies.user) {
+      const user = JSON.parse(req.cookies.user);
+      if (user.verified) {
+        return res.render("users", {
+          usersList: users,
+          userName: user.userName,
+          verified: user.verified,
+        });
+      }
+      return res.render("error", {
+        heading: "Cannot View User",
+        content: "Not verified",
+      });
+    } else {
+      return res.render("error", {
+        heading: "Cannot View User",
+        content: "Not logged in",
+      });
     }
   });
 };
@@ -71,4 +103,5 @@ module.exports = {
   userLoginPage,
   userSignUpPage,
   verificationPage,
+  userPage,
 };

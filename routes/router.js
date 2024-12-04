@@ -3,6 +3,7 @@ const {
   userSignUpPage,
   userLoginPage,
   verificationPage,
+  userPage,
 } = require("../controller/pageController");
 
 const {
@@ -19,7 +20,6 @@ const {
 const express = require("express");
 const router = express.Router();
 
-// Define the route for home
 router.get("/", homePage);
 router.get("/login", userLoginPage);
 router.post("/login", userLogin);
@@ -30,6 +30,6 @@ router.get("/verify", verificationPage);
 router.post("/verify", verifyEmail);
 router.get("/resend", resendEmail);
 router.get("/change-mail", changeEmail);
+router.get("/users", userPage);
 
-// Export the router
 module.exports = router;

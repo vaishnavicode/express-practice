@@ -1,17 +1,15 @@
 const connection = require("../database/connection");
 
 const postUser = (callback, user) => {
-  // Parameterized query to prevent SQL injection
   var addUserQuery = `
     INSERT INTO users (userId, userName, firstName, lastName, email, password, phone, dob, age, address, isAdmin, verified)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  // Prepare the values to be inserted, using placeholders (?)
   connection.query(
     addUserQuery,
     [
-      user.userId || new Date().getTime(), // Default userId as current timestamp if not provided
+      user.userId || new Date().getTime(),
       user.userName,
       user.firstName,
       user.lastName,
@@ -29,7 +27,7 @@ const postUser = (callback, user) => {
         console.error("Error inserting user: ", err);
         return callback(err, null);
       }
-      return callback(null, true); // Success
+      return callback(null, true);
     }
   );
 };

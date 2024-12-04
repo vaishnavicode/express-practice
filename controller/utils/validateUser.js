@@ -1,7 +1,6 @@
-export function validateUser(user) {
+const validateUser = (user) => {
   const errors = [];
 
-  // Check if required fields are not empty
   if (!user.userName || user.userName.trim() === "") {
     errors.push("User name is required.");
   }
@@ -30,24 +29,20 @@ export function validateUser(user) {
     errors.push("Address is required.");
   }
 
-  // Validate email format
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
   if (user.email && !emailRegex.test(user.email)) {
     errors.push("Email is not valid.");
   }
 
-  // Validate phone number format (assuming a 10-digit number)
-  const phoneRegex = /^\d{10}$/; // assuming phone numbers are 10 digits long
+  const phoneRegex = /^\d{10}$/;
   if (user.phone && !phoneRegex.test(user.phone)) {
     errors.push("Phone number must be 10 digits.");
   }
 
-  // Check if password and confirmPassword match
   if (user.password !== user.confirmPassword) {
     errors.push("Password and confirm password do not match.");
   }
 
-  // Password strength check: at least 8 characters, 1 number, 1 special character
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
   if (user.password && !passwordRegex.test(user.password)) {
     errors.push(
@@ -55,10 +50,11 @@ export function validateUser(user) {
     );
   }
 
-  // If there are validation errors, return them; otherwise, return null
   if (errors.length > 0) {
     return errors;
   } else {
-    return null; // No errors, valid input
+    return null;
   }
-}
+};
+
+module.exports = { validateUser };

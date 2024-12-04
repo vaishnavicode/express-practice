@@ -1,6 +1,6 @@
-const validateUser = require("../constant/validateUser").validateUser;
-const calculateAge = require("../constant/calculateAge").calculateAge;
-const { setCookies, clearAllCookies } = require("../constant/cookies");
+const { validateUser } = require("./utils/validateUser");
+const { calculateAge } = require("./utils/calculateAge");
+const { setCookies, clearAllCookies } = require("./utils/cookies");
 const { getUsers } = require("../models/getUsers");
 const { postUser } = require("../models/postUser");
 

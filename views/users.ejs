@@ -4,19 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/styles.css" />
-
     <title>Users</title>
   </head>
   <body>
     <div class="navbar">
       <h2 id="heading">Welcome <%= userName %></h2>
-      <% if(!verified) { %>
-      <a href="/verify" id="verification-link">Verify Your Email</a>
 
-      <% }; %>
-      <a href="/logout" id="logout-link">Logout</a>
+      <% if (!verified) { %>
+      <a href="/verify" id="verification-link">Verify Your Email</a>
+      <% } %>
+
+      <a href="/logout" class="loginOrNot">Logout</a>
     </div>
 
+    <% if (verified) { %>
     <center>
       <table title="Data" id="datatable">
         <h1>Users</h1>
@@ -31,6 +32,7 @@
             <th>DOB</th>
             <th>Age</th>
             <th>Address</th>
+            <th>Verified</th>
           </tr>
         </thead>
         <tbody>
@@ -45,10 +47,12 @@
             <td><%= user.dob %></td>
             <td><%= user.age %></td>
             <td><%= user.address %></td>
+            <td><%= (user.verified === 1) ? "Verified" : "Not Verified" %></td>
           </tr>
           <% }); %>
         </tbody>
       </table>
     </center>
+    <% } %>
   </body>
 </html>
