@@ -101,7 +101,6 @@ const userLogOut = (req, res) => {
 const userEdit = (req, res) => {
   const { firstName, lastName, phone, dob, address } = req.body;
 
-  console.log(firstName, lastName, phone, dob, address);
   const updated = {
     ...JSON.parse(req.cookies.user),
     firstName: firstName,
