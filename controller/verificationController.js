@@ -1,8 +1,6 @@
-const users = require("./utils/users").users;
-const { getUsers } = require("../models/getUsers");
 const { setCookies } = require("./utils/cookies");
 const { sendMail } = require("./utils/sendMail");
-const { updateUserVerified } = require("../models/updateUserVerified");
+const { updateUserVerified, getUsers } = require("../db.js");
 
 const generateRandomOtp = (len) => {
   var otp = "";
@@ -69,14 +67,8 @@ const resendEmail = (req, res) => {
     var otp = generateRandomOtp(6);
     res.cookie("otp", otp);
     sendMail(req, res, otp, req.cookies.email);
-    return res.redirect("/verify");
-  } else {
-    return res.render("error", {
-      heading: "Cannot resend",
-      content: "Cannot resend!",
-      back: "/",
-    });
   }
+  return res.redirect("/verify");
 };
 
 const changeEmail = (req, res) => {

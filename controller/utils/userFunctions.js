@@ -1,3 +1,10 @@
+const calculateAge = (dob) => {
+  dob = new Date(dob.split("-"));
+  var today = new Date();
+
+  return today.getFullYear() - dob.getFullYear();
+};
+
 const validateUser = (user) => {
   const errors = [];
 
@@ -57,4 +64,4 @@ const validateUser = (user) => {
   }
 };
 
-module.exports = { validateUser };
+module.exports = { calculateAge, validateUser };

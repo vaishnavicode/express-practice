@@ -1,4 +1,4 @@
-const { getUsers } = require("../models/getUsers");
+const { getUsers } = require("../db.js");
 
 const homePage = (req, res) => {
   getUsers((err, users) => {
@@ -41,11 +41,13 @@ const userPage = (req, res) => {
       return res.render("error", {
         heading: "Cannot View User",
         content: "Not verified",
+        redirect: { desc: "Verify Yourself", link: "/verify" },
       });
     } else {
       return res.render("error", {
         heading: "Cannot View User",
         content: "Not logged in",
+        redirect: { desc: "Log In", link: "/login" },
       });
     }
   });
@@ -56,7 +58,7 @@ const userLoginPage = (req, res) => {
     return res.render("error", {
       heading: "Already logged in",
       content: "You are already logged in",
-      back: "/",
+      redirect: { desc: "Logout", link: "/logout" },
     });
   } else {
     return res.render("login");
@@ -68,7 +70,7 @@ const userSignUpPage = (req, res) => {
     return res.render("error", {
       heading: "Already logged in",
       content: "You are already logged in",
-      back: "/",
+      redirect: { desc: "Logout", link: "/logout" },
     });
   } else {
     return res.render("signup");
@@ -81,7 +83,7 @@ const verificationPage = (req, res) => {
       return res.render("error", {
         heading: "Already Verified",
         content: "Cannot verify again!",
-        back: "/",
+        redirect: { desc: "Go to Home", link: "/" },
       });
     }
     return res.render("verify", {
@@ -93,7 +95,7 @@ const verificationPage = (req, res) => {
     return res.render("error", {
       heading: "Not Logged In",
       content: "Cannot verify!",
-      back: "/",
+      redirect: { desc: "Login", link: "/login" },
     });
   }
 };

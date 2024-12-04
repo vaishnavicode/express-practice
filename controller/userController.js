@@ -1,8 +1,6 @@
-const { validateUser } = require("./utils/validateUser");
-const { calculateAge } = require("./utils/calculateAge");
+const { validateUser, calculateAge } = require("./utils/userFunctions");
 const { setCookies, clearAllCookies } = require("./utils/cookies");
-const { getUsers } = require("../models/getUsers");
-const { postUser } = require("../models/postUser");
+const { getUsers, postUser } = require("../db.js");
 
 const userLogin = (req, res) => {
   const { user, userPassword } = req.body;
@@ -61,11 +59,15 @@ const userSignUp = (req, res) => {
   if (!validateUser(user)) {
     postUser((err, success) => {
       if (err) {
-        return res.status(500).send("Error registering user.");
+        return res.render("error", {
+          heading: "Cannot Add User",
+          content: "User with this email already exist!",
+          redirect: { desc: "Try with a different Email", link: "/signup" },
+        });
+      } else {
+        setCookies(req, res, user);
       }
-
-      setCookies(req, res, user);
-      return res.redirect("/");
+      return res.redirect("/signup");
     }, user);
   } else {
     return res.redirect("/signup");

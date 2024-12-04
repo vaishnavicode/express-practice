@@ -20,7 +20,7 @@ app.use((req, res, next) => {
   res.render("error", {
     heading: "404",
     content: "Cannot find the page specified!",
-    back: "/",
+    redirect: { desc: "Go To Home", link: "/" },
   });
 });
 
