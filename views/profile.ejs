@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <center>
+      <%= console.log(user) %>
+      <h2>User Profile</h2>
+      <table>
+        <tr>
+          <th><label for="firstName">Name:</label></th>
+          <td><%= user.firstName %></td>
+        </tr>
+
+        <tr>
+          <th><label for="lastName">Surname:</label></th>
+          <td><%= user.lastName %></td>
+        </tr>
+
+        <tr>
+          <th><label for="userName">Username:</label></th>
+          <td><%= user.userName %></td>
+        </tr>
+
+        <tr>
+          <th><label for="email">Email:</label></th>
+          <td><%= user.email %></td>
+        </tr>
+
+        <tr>
+          <th><label for="phone">Phone:</label></th>
+          <td><%= user.phone %></td>
+        </tr>
+
+        <tr>
+          <th><label for="dob">DOB:</label></th>
+          <td><%= user.dob %></td>
+        </tr>
+
+        <tr>
+          <th><label for="address">Address:</label></th>
+          <td><%= user.address %></td>
+        </tr>
+      </table>
+      <div class="centered-row">
+        <a href="/editProfile" class="loginOrNot" id="login-button"
+          >Edit Profile</a
+        >
+        <a href="/" class="loginOrNot">Home</a>
+      </div>
+    </center>
+  </body>
+</html>

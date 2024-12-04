@@ -7,16 +7,6 @@
     <title>Users</title>
   </head>
   <body>
-    <div class="navbar">
-      <h2 id="heading">Welcome <%= userName %></h2>
-
-      <% if (!verified) { %>
-      <a href="/verify" id="verification-link">Verify Your Email</a>
-      <% } %>
-
-      <a href="/logout" class="loginOrNot">Logout</a>
-    </div>
-
     <% if (verified) { %>
     <center>
       <table title="Data" id="datatable">
@@ -52,6 +42,7 @@
           <% }); %>
         </tbody>
       </table>
+      <a href="/">Home</a>
     </center>
     <% } %>
   </body>

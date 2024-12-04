@@ -1,6 +1,6 @@
 const { validateUser, calculateAge } = require("./utils/userFunctions");
 const { setUserCookies, clearAllCookies } = require("./utils/cookies");
-const { getUsers, postUser } = require("../db.js");
+const { getUsers, postUser, editUser } = require("../db.js");
 
 const userLogin = (req, res) => {
   const { user, userPassword } = req.body;
@@ -98,8 +98,51 @@ const userLogOut = (req, res) => {
   res.redirect("/");
 };
 
+const userEdit = (req, res) => {
+  const { firstName, lastName, phone, dob, address } = req.body;
+
+  console.log(firstName, lastName, phone, dob, address);
+  const updated = {
+    ...JSON.parse(req.cookies.user),
+    firstName: firstName,
+    lastName: lastName,
+    phone: phone,
+    dob: dob,
+    address: address,
+    password: "Verified@0",
+    confirmPassword: "Verified@0",
+  };
+
+  if (!validateUser(updated)) {
+    editUser(
+      (err, success) => {
+        if (err) {
+          console.log(err.sqlMessage);
+          res.redirect("/editProfile");
+        } else {
+          setUserCookies(req, res, updated);
+          console.log("UserChanged");
+          res.redirect("/profile");
+        }
+      },
+      firstName,
+      lastName,
+      phone,
+      dob,
+      address,
+      JSON.parse(req.cookies.user).userId
+    );
+  } else {
+    return res.render("editProfile", {
+      user: JSON.parse(req.cookies.user),
+      errors: validateUser(updated),
+    });
+  }
+};
+
 module.exports = {
   userLogin,
   userSignUp,
   userLogOut,
+  userEdit,
 };

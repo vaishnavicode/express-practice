@@ -13,7 +13,8 @@
       <% if(loggedIn) { %> <% if(!verified) { %>
       <a href="/verify" id="verification-link">Verify Your Email</a>
       <% } else { %>
-      <a href="/users" class="loginOrNot" id="verification-link">Users</a>
+      <a href="/profile" class="loginOrNot">Profile</a>
+      <a href="/users" class="loginOrNot">Users</a>
       <% } %>
       <a href="/logout" class="loginOrNot">Logout</a>
       <% } else { %>

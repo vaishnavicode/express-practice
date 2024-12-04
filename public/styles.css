@@ -40,7 +40,7 @@ button,
   background-color: white;
   color: blueviolet;
   border: 2px solid blueviolet;
-  border-radius: 10%;
+  border-radius: 15px;
 }
 
 td {
@@ -63,25 +63,36 @@ button:hover {
 
 input {
   font-size: 16px;
-  height: 20px;
+  height: 30px;
   width: 100%;
 }
 
 .navbar {
   overflow: hidden;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 14px 20px;
   text-decoration: none;
 }
+
+#heading {
+  margin-right: auto; /* Keep heading on the left */
+}
+
 a {
   text-decoration: none;
 }
+
 .loginOrNot {
   color: white;
 }
+
 #verification-link {
+  margin: 10px;
   margin-left: auto;
+}
+#verification-link:hover {
+  color: red;
 }
 
 .error-message {
@@ -99,7 +110,8 @@ a {
   opacity: 0;
 }
 
-form {
+form,
+table {
   max-width: 500px;
   width: 100%;
 }
@@ -143,7 +155,21 @@ a {
   margin-top: 10px;
 }
 
-form {
+form,
+table {
   max-width: 500px;
   margin: 0 auto;
+}
+.centered-row {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.element {
+  padding: 10px;
+  background-color: lightblue;
+  border: 1px solid #000;
 }

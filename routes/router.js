@@ -4,12 +4,15 @@ const {
   userLoginPage,
   verificationPage,
   userPage,
+  profilePage,
+  editProfilePage,
 } = require("../controller/pageController");
 
 const {
   userLogin,
   userSignUp,
   userLogOut,
+  userEdit,
 } = require("../controller/userController");
 
 const {
@@ -31,5 +34,8 @@ router.post("/verify", verifyEmail);
 router.get("/resend", resendEmail);
 router.get("/change-mail", changeEmail);
 router.get("/users", userPage);
+router.get("/profile", profilePage);
+router.get("/editProfile", editProfilePage);
+router.post("/editProfile", userEdit);
 
 module.exports = router;

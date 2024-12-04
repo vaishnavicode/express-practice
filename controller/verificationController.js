@@ -1,4 +1,4 @@
-const { setCookies } = require("./utils/cookies");
+const { setUserCookies } = require("./utils/cookies");
 const { sendMail } = require("./utils/sendMail");
 const { updateUserVerified, getUsers } = require("../db.js");
 
@@ -28,7 +28,10 @@ const verifyEmail = (req, res) => {
         let userUpdated = false;
 
         for (let index of users) {
-          if (req.cookies.email === index.email) {
+          if (
+            req.cookies.email === index.email &&
+            req.cookies.user.email === index.email
+          ) {
             index.verified = true;
             console.log("User verified: ", index);
 
@@ -40,7 +43,7 @@ const verifyEmail = (req, res) => {
               }
             }, index.userId);
 
-            setCookies(req, res, index);
+            setUserCookies(req, res, index);
 
             userUpdated = true;
           }

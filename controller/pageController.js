@@ -111,10 +111,22 @@ const verificationPage = (req, res) => {
   }
 };
 
+const profilePage = (req, res) => {
+  return res.render("profile", { user: JSON.parse(req.cookies.user) });
+};
+const editProfilePage = (req, res) => {
+  return res.render("editProfile", {
+    user: JSON.parse(req.cookies.user),
+    errors: {},
+  });
+};
+
 module.exports = {
   homePage,
   userLoginPage,
   userSignUpPage,
   verificationPage,
   userPage,
+  profilePage,
+  editProfilePage,
 };

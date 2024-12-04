@@ -59,5 +59,34 @@ const updateUserVerified = (callback, userId) => {
     return callback(null, true);
   });
 };
+const editUser = (
+  callback,
+  firstName,
+  lastName,
+  phone,
+  dob,
+  address,
+  userId
+) => {
+  var updateVerifiedQuery = `
+  UPDATE users
+  SET firstName = ?, lastName = ?,phone = ?, dob = ?, address = ?
+  WHERE userId = ?
+`;
 
-module.exports = { getUsers, postUser, updateUserVerified };
+  connection.query(
+    updateVerifiedQuery,
+    [firstName, lastName, phone, dob, address, userId],
+    (err, result) => {
+      if (err) {
+        console.log("Error updating user: ", err.sqlMessage);
+        return callback(err, null);
+      }
+      if (result.affectedRows === 0) {
+        return callback(new Error("User not found"), null);
+      }
+      return callback(null, true);
+    }
+  );
+};
+module.exports = { getUsers, postUser, updateUserVerified, editUser };
