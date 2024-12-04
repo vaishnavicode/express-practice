@@ -34,7 +34,6 @@ const postUser = (callback, user) => {
     ],
     (err, result) => {
       if (err) {
-        console.log("Error inserting user: ", err.sqlMessage);
         return callback(err, null);
       }
       return callback(null, true);

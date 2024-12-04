@@ -3,7 +3,11 @@ const { getUsers } = require("../db.js");
 const homePage = (req, res) => {
   getUsers((err, users) => {
     if (err) {
-      return res.status(500).send("Error retrieving users");
+      return res.render("error", {
+        heading: "Database Error",
+        content: "Trouble retriving users",
+        redirect: { desc: "Try again", link: "/login" },
+      });
     }
 
     if (req.cookies.user) {
@@ -26,7 +30,11 @@ const homePage = (req, res) => {
 const userPage = (req, res) => {
   getUsers((err, users) => {
     if (err) {
-      return res.status(500).send("Error retrieving users");
+      return res.render("error", {
+        heading: "Database Error",
+        content: "Trouble retriving users",
+        redirect: { desc: "Try again", link: "/login" },
+      });
     }
 
     if (req.cookies.user) {
@@ -54,26 +62,29 @@ const userPage = (req, res) => {
 };
 
 const userLoginPage = (req, res) => {
-  if (req.cookies.userName) {
+  if (req.cookies.user) {
     return res.render("error", {
       heading: "Already logged in",
       content: "You are already logged in",
       redirect: { desc: "Logout", link: "/logout" },
     });
   } else {
-    return res.render("login");
+    return res.render("login", {
+      errors: {},
+      user: { user: "", password: "" },
+    });
   }
 };
 
 const userSignUpPage = (req, res) => {
-  if (req.cookies.userName) {
+  if (req.cookies.user) {
     return res.render("error", {
       heading: "Already logged in",
       content: "You are already logged in",
       redirect: { desc: "Logout", link: "/logout" },
     });
   } else {
-    return res.render("signup");
+    return res.render("signup", { errors: {}, user: {} });
   }
 };
 

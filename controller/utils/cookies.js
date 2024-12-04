@@ -5,7 +5,7 @@ const clearAllCookies = (req, res) => {
   return true;
 };
 
-const setCookies = (req, res, user) => {
+const setUserCookies = (req, res, user) => {
   res.cookie(
     "user",
     JSON.stringify({
@@ -25,4 +25,4 @@ const setCookies = (req, res, user) => {
   return true;
 };
 
-module.exports = { setCookies, clearAllCookies };
+module.exports = { setUserCookies, clearAllCookies };

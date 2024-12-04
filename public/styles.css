@@ -62,16 +62,16 @@ button:hover {
 }
 
 input {
-  font-size: 16px; /* Increase font size */
-  height: 20px; /* Set a larger height */
-  width: 100%; /* Make the input field take up the full width */
+  font-size: 16px;
+  height: 20px;
+  width: 100%;
 }
 
 .navbar {
-  overflow: hidden; /* Clear floats */
+  overflow: hidden;
   display: flex;
-  justify-content: space-between; /* Space out the elements */
-  padding: 14px 20px; /* Add padding around the navbar */
+  justify-content: space-between;
+  padding: 14px 20px;
   text-decoration: none;
 }
 a {
@@ -82,4 +82,68 @@ a {
 }
 #verification-link {
   margin-left: auto;
+}
+
+.error-message {
+  opacity: 1;
+  transition: opacity 1s ease-out;
+  color: red;
+  font-size: 12px;
+  white-space: normal;
+  word-wrap: break-word;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.error-message.hidden {
+  opacity: 0;
+}
+
+form {
+  max-width: 500px;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+a {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+form {
+  max-width: 500px;
+  margin: 0 auto;
 }

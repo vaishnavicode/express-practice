@@ -13,12 +13,40 @@
         <table>
           <tr>
             <th><label for="user">Email/Username:</label></th>
-            <td><input type="text" name="user" /></td>
+            <td>
+              <input
+                type="text"
+                name="user"
+                value="<%= user ? user.user : '' %>"
+              />
+            </td>
           </tr>
+          <% if (errors && errors.users) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.users %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <th><label for="userPassword">Password:</label></th>
-            <td><input type="password" name="userPassword" /></td>
+            <td>
+              <input
+                type="password"
+                name="userPassword"
+                value="<%= user ? user.userPassword : '' %>"
+              />
+            </td>
           </tr>
+          <% if (errors && errors.password) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.password %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <td colspan="2"><button type="submit">Submit</button></td>
           </tr>

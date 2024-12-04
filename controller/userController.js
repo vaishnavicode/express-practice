@@ -1,33 +1,47 @@
 const { validateUser, calculateAge } = require("./utils/userFunctions");
-const { setCookies, clearAllCookies } = require("./utils/cookies");
+const { setUserCookies, clearAllCookies } = require("./utils/cookies");
 const { getUsers, postUser } = require("../db.js");
 
 const userLogin = (req, res) => {
   const { user, userPassword } = req.body;
-
+  const error = {};
+  var flags = [false, false];
   getUsers((err, users) => {
     if (err) {
-      return res.status(500).send("Error retrieving users");
+      return res.render("error", {
+        heading: "Database Error",
+        content: "Trouble retriving users",
+        redirect: { desc: "Try again", link: "/login" },
+      });
     }
 
     for (let index of users) {
-      if (
-        (user === index.email || user === index.userName) &&
-        userPassword === index.password
-      ) {
-        setCookies(req, res, index);
-        return res.redirect("/");
+      if (user === index.email || user === index.userName) {
+        flags[0] = true;
+        if (userPassword === index.password) {
+          flags[1] = true;
+          setUserCookies(req, res, index);
+          return res.redirect("/");
+        }
       }
     }
 
-    return res.redirect("/login");
+    if (!flags[0]) {
+      error["users"] = "Username or email is not correct.";
+    }
+    if (!flags[1]) {
+      error["password"] = "Password is incorrect.";
+    }
+    return res.render("login", {
+      errors: error,
+      user: { user: user, password: userPassword },
+    });
   });
 };
 
 const userSignUp = (req, res) => {
   clearAllCookies(req, res);
 
-  // Destructure user details from the request body
   const {
     firstName,
     lastName,
@@ -40,7 +54,6 @@ const userSignUp = (req, res) => {
     confirmPassword,
   } = req.body;
 
-  // Create user object
   var user = {
     userName: userName,
     firstName: firstName,
@@ -59,18 +72,24 @@ const userSignUp = (req, res) => {
   if (!validateUser(user)) {
     postUser((err, success) => {
       if (err) {
-        return res.render("error", {
-          heading: "Cannot Add User",
-          content: "User with this email already exist!",
-          redirect: { desc: "Try with a different Email", link: "/signup" },
+        return res.render("signup", {
+          errors: {
+            email: err.sqlMessage.includes("email")
+              ? "Email already registered."
+              : null,
+            userName: err.sqlMessage.includes("userName")
+              ? "Username already exists."
+              : null,
+          },
+          user: user,
         });
       } else {
-        setCookies(req, res, user);
+        setUserCookies(req, res, user);
+        return res.redirect("/");
       }
-      return res.redirect("/signup");
     }, user);
   } else {
-    return res.redirect("/signup");
+    return res.render("signup", { errors: validateUser(user), user: user });
   }
 };
 

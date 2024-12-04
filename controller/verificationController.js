@@ -18,7 +18,11 @@ const verifyEmail = (req, res) => {
       getUsers((err, users) => {
         if (err) {
           console.error("Error fetching users: ", err.message);
-          return res.status(500).send("Internal Server Error");
+          res.render("error", {
+            heading: "Data Error",
+            content: "Internal Server Error",
+            redirect: { desc: "Go To Home", link: "/" },
+          });
         }
 
         let userUpdated = false;
@@ -30,10 +34,7 @@ const verifyEmail = (req, res) => {
 
             updateUserVerified((err, result) => {
               if (err) {
-                console.error(
-                  "Failed to update verified status: ",
-                  err.message
-                );
+                console.log("Failed to update verified status: ", err.message);
               } else {
                 console.log("User's verified status updated successfully.");
               }
@@ -48,7 +49,11 @@ const verifyEmail = (req, res) => {
         if (userUpdated) {
           return res.redirect("/");
         } else {
-          return res.status(400).send("User not found or OTP mismatch.");
+          res.render("error", {
+            heading: "Data Error",
+            content: "User not found or OTP mismatch.",
+            redirect: { desc: "Go To Home", link: "/" },
+          });
         }
       });
     }

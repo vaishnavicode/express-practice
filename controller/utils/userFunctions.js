@@ -6,58 +6,73 @@ const calculateAge = (dob) => {
 };
 
 const validateUser = (user) => {
-  const errors = [];
+  const errors = {};
 
+  // User name validation
   if (!user.userName || user.userName.trim() === "") {
-    errors.push("User name is required.");
+    errors["userName"] = "User name is required.";
   }
+
+  // First name validation
   if (!user.firstName || user.firstName.trim() === "") {
-    errors.push("First name is required.");
+    errors["firstName"] = "First name is required.";
   }
+
+  // Last name validation
   if (!user.lastName || user.lastName.trim() === "") {
-    errors.push("Last name is required.");
+    errors["lastName"] = "Last name is required.";
   }
+
+  // Email validation
   if (!user.email || user.email.trim() === "") {
-    errors.push("Email is required.");
+    errors["email"] = "Email is required.";
+  } else {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailRegex.test(user.email)) {
+      errors["email"] = "Email is not valid.";
+    }
   }
+
+  // Password validation
   if (!user.password || user.password.trim() === "") {
-    errors.push("Password is required.");
+    errors["password"] = "Password is required.";
+  } else {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+    if (!passwordRegex.test(user.password)) {
+      errors["password"] =
+        "Password must be at least 8 characters long, contain at least one number and one special character.";
+    }
   }
+
+  // Confirm password validation
   if (!user.confirmPassword || user.confirmPassword.trim() === "") {
-    errors.push("Confirm password is required.");
+    errors["confirmPassword"] = "Confirm password is required.";
+  } else if (user.password !== user.confirmPassword) {
+    errors["confirmPassword"] = "Password and confirm password do not match.";
   }
+
+  // Phone number validation
   if (!user.phone || user.phone.trim() === "") {
-    errors.push("Phone number is required.");
+    errors["phone"] = "Phone number is required.";
+  } else {
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(user.phone)) {
+      errors["phone"] = "Phone number must be 10 digits.";
+    }
   }
+
+  // Date of birth validation
   if (!user.dob || user.dob.trim() === "") {
-    errors.push("Date of birth is required.");
+    errors["dob"] = "Date of birth is required.";
   }
+
+  // Address validation
   if (!user.address || user.address.trim() === "") {
-    errors.push("Address is required.");
+    errors["address"] = "Address is required.";
   }
 
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  if (user.email && !emailRegex.test(user.email)) {
-    errors.push("Email is not valid.");
-  }
-
-  const phoneRegex = /^\d{10}$/;
-  if (user.phone && !phoneRegex.test(user.phone)) {
-    errors.push("Phone number must be 10 digits.");
-  }
-
-  if (user.password !== user.confirmPassword) {
-    errors.push("Password and confirm password do not match.");
-  }
-
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
-  if (user.password && !passwordRegex.test(user.password)) {
-    errors.push(
-      "Password must be at least 8 characters long, contain at least one number and one special character."
-    );
-  }
-
-  if (errors.length > 0) {
+  // Return errors object if there are any errors, otherwise return null
+  if (Object.keys(errors).length > 0) {
     return errors;
   } else {
     return null;

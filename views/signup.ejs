@@ -13,44 +13,170 @@
         <table>
           <tr>
             <th><label for="firstName">Name:</label></th>
-            <td><input type="text" name="firstName" /></td>
+            <td>
+              <input
+                type="text"
+                name="firstName"
+                value="<%= user ? user.firstName : '' %>"
+              />
+            </td>
           </tr>
+          <% if (errors && errors.firstName) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.firstName %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <th><label for="lastName">Surname:</label></th>
-            <td><input type="text" name="lastName" /></td>
+            <td>
+              <input
+                type="text"
+                name="lastName"
+                value="<%= user ? user.lastName : '' %>"
+              />
+            </td>
           </tr>
+          <% if (errors && errors.lastName) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.lastName %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <th><label for="userName">Username:</label></th>
-            <td><input type="text" name="userName" /></td>
+            <td>
+              <input
+                type="text"
+                name="userName"
+                value="<%= user ? user.userName : '' %>"
+              />
+            </td>
           </tr>
+          <% if (errors && errors.userName) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.userName %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <th><label for="email">Email:</label></th>
-            <td><input type="email" name="email" /></td>
+            <td>
+              <input
+                type="email"
+                name="email"
+                value="<%= user ? user.email : '' %>"
+              />
+            </td>
           </tr>
-          <tr></tr>
+          <% if (errors && errors.email) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.email %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <th><label for="phone">Phone:</label></th>
-            <td><input type="text" name="phone" /></td>
+            <td>
+              <input
+                type="text"
+                name="phone"
+                value="<%= user ? user.phone : '' %>"
+              />
+            </td>
           </tr>
+          <% if (errors && errors.phone) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.phone %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <th><label for="dob">DOB:</label></th>
-            <td><input type="date" name="dob" /></td>
+            <td>
+              <input
+                type="date"
+                name="dob"
+                value="<%= user ? user.dob : '' %>"
+              />
+            </td>
           </tr>
+          <% if (errors && errors.dob) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.dob %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <th><label for="address">Address:</label></th>
-            <td><input type="text" name="address" /></td>
+            <td>
+              <input
+                type="text"
+                name="address"
+                value="<%= user ? user.address : '' %>"
+              />
+            </td>
           </tr>
+          <% if (errors && errors.address) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.address %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <th><label for="password">Password:</label></th>
-            <td><input type="password" name="password" /></td>
+            <td>
+              <input
+                type="password"
+                name="password"
+                value="<%= user ? user.password : '' %>"
+              />
+            </td>
           </tr>
+          <% if (errors && errors.password) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.password %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <th><label for="confirmPassword">Confirm Password:</label></th>
-            <td><input type="password" name="confirmPassword" /></td>
+            <td>
+              <input
+                type="password"
+                name="confirmPassword"
+                value="<%= user ? user.confirmPassword : '' %>"
+              />
+            </td>
           </tr>
+          <% if (errors && errors.confirmPassword) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.confirmPassword %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <td colspan="2"><button type="submit">Submit</button></td>
           </tr>
+
           <tr>
             <td colspan="2"><a href="/login">Already have an account?</a></td>
           </tr>
