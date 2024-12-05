@@ -18,7 +18,6 @@ const {
 const {
   verifyEmail,
   resendEmail,
-  changeEmail,
 } = require("../controller/verificationController");
 const express = require("express");
 const router = express.Router();
@@ -31,8 +30,7 @@ router.post("/signup", userSignUp);
 router.get("/logout", userLogOut);
 router.get("/verify", verificationPage);
 router.post("/verify", verifyEmail);
-router.get("/resend", resendEmail);
-router.get("/change-mail", changeEmail);
+router.get("/resend", verifyEmail);
 router.get("/users", userPage);
 router.get("/profile", profilePage);
 router.get("/editProfile", editProfilePage);

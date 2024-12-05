@@ -8,6 +8,12 @@
   </head>
   <body>
     <% if (verified) { %>
+    <div class="navbar">
+      <h2 id="heading">Welcome <%= userName %></h2>
+
+      <a href="/profile" class="loginOrNot">Profile</a>
+      <a href="/logout" class="loginOrNot" id="login-button">Logout</a>
+    </div>
     <center>
       <table title="Data" id="datatable">
         <h1>Users</h1>
@@ -42,7 +48,7 @@
           <% }); %>
         </tbody>
       </table>
-      <a href="/">Home</a>
+      <p class="purple">End</p>
     </center>
     <% } %>
   </body>

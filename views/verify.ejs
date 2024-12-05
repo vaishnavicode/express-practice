@@ -9,42 +9,31 @@
   <body>
     <center>
       <form action="/verify" method="POST" name="login" id="login">
-        <h2>Verification</h2>
+        <h2>Verify Your Email</h2>
         <table>
-          <% if(!send) { %>
-          <tr>
-            <th><label for="email">Email:</label></th>
-            <td>
-              <input
-                type="text"
-                name="email"
-                value="<%= defaultEmail %>"
-                required
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}"
-                title="Please enter a valid email address"
-              />
-            </td>
-          </tr>
-          <% }; %> <% if(send) { %>
+          <% if (send) { %>
           <tr>
             <th><label for="otp">OTP:</label></th>
             <td><input type="text" name="otp" maxlength="6" /></td>
           </tr>
-          <tr>
-            <td colspan="2">
-              <a href="/change-mail">Change Email</a>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <a href="/resend">Resend OTP</a>
-            </td>
-          </tr>
 
-          <% }; %>
+          <% if (errors && errors.otp) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.otp %></strong>
+            </td>
+          </tr>
+          <% } %>
+
           <tr>
             <td colspan="2">
-              <button type="submit"><%= buttonText %></button>
+              <a href="/resend" class="verification-link">Resend OTP</a>
+            </td>
+          </tr>
+          <% } %>
+          <tr>
+            <td colspan="2">
+              <button type="submit">Verify</button>
             </td>
           </tr>
         </table>

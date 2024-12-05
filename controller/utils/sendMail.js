@@ -9,12 +9,12 @@ const auth = nodemailer.createTransport({
     pass: "rkcxfxvrroftwcqv",
   },
 });
-const sendMail = (req, res, otp, email) => {
+const sendMail = (req, res, otp, email, resend) => {
   const receiver = {
     from: "dummytest0094@gmail.com",
     to: `${email}`,
-    subject: "OTP for Verification",
-    text: `Your otp : ${otp}. It will be valid for two minutes.`,
+    subject: `${resend ? "Resend: " : ""} OTP for Verification`,
+    text: `Your otp : ${otp}. It will be expire in three minutes.`,
   };
   auth.sendMail(receiver, (error, emailResponse) => {
     if (error) throw error;
@@ -24,4 +24,13 @@ const sendMail = (req, res, otp, email) => {
   return true;
 };
 
-module.exports = { sendMail };
+const generateRandomOtp = (len) => {
+  var otp = "";
+  for (let i = 0; i < len; i++) {
+    otp += Math.floor(Math.random() * 10);
+  }
+
+  return otp;
+};
+
+module.exports = { sendMail, generateRandomOtp };

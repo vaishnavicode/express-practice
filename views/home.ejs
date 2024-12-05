@@ -6,20 +6,5 @@
     <link rel="stylesheet" href="/styles.css" />
     <title>Users</title>
   </head>
-  <body>
-    <div class="navbar">
-      <h2 id="heading">Welcome <%= userName %></h2>
-
-      <% if(loggedIn) { %> <% if(!verified) { %>
-      <a href="/verify" id="verification-link">Verify Your Email</a>
-      <a href="/profile" class="loginOrNot">Profile</a>
-      <% } else { %>
-      <a href="/users" class="loginOrNot">Users</a>
-      <% } %>
-      <a href="/logout" class="loginOrNot">Logout</a>
-      <% } else { %>
-      <a href="/login" class="loginOrNot" id="login-button">Login</a>
-      <% } %>
-    </div>
-  </body>
+  <body></body>
 </html>

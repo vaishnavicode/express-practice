@@ -1,33 +1,27 @@
 const { getUsers } = require("../db.js");
+const { verifyEmail } = require("./verificationController.js");
 
 const homePage = (req, res) => {
-  getUsers((err, users) => {
-    if (err) {
-      return res.render("error", {
-        heading: "Database Error",
-        content: "Trouble retriving users",
-        redirect: { desc: "Try again", link: "/login" },
-      });
-    }
-
-    if (req.cookies.user) {
-      const user = JSON.parse(req.cookies.user);
-      return res.render("home", {
-        userName: user.userName,
-        verified: user.verified,
-        loggedIn: true,
-      });
+  if (req.cookies.user) {
+    const user = JSON.parse(req.cookies.user);
+    if (user.verified) {
+      return res.redirect("/users");
     } else {
-      return res.render("home", {
-        userName: "User",
-        verified: false,
-        loggedIn: false,
-      });
+      return res.redirect("/verify");
     }
-  });
+  } else {
+    return res.redirect("/login");
+  }
 };
 
 const userPage = (req, res) => {
+  if (!req.cookies.user) {
+    res.render("error", {
+      heading: "No User Found",
+      content: "Please log in.",
+      redirect: { desc: "Login", link: "/login" },
+    });
+  }
   getUsers((err, users) => {
     if (err) {
       return res.render("error", {
@@ -50,12 +44,6 @@ const userPage = (req, res) => {
         heading: "Cannot View User",
         content: "Not verified",
         redirect: { desc: "Verify Yourself", link: "/verify" },
-      });
-    } else {
-      return res.render("error", {
-        heading: "Cannot View User",
-        content: "Not logged in",
-        redirect: { desc: "Log In", link: "/login" },
       });
     }
   });
@@ -97,11 +85,14 @@ const verificationPage = (req, res) => {
         redirect: { desc: "Go to Home", link: "/" },
       });
     }
-    return res.render("verify", {
-      send: req.cookies.otp ? true : false,
-      buttonText: req.cookies.send ? "Verify" : "Send OTP",
-      defaultEmail: req.cookies.user ? JSON.parse(req.cookies.user).email : "",
-    });
+    if (!req.cookies.otp) {
+      return verifyEmail(req, res);
+    } else {
+      return res.render("verify", {
+        send: req.cookies.otp ? true : false,
+        errors: {},
+      });
+    }
   } else {
     return res.render("error", {
       heading: "Not Logged In",

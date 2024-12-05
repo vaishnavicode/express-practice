@@ -1,8 +1,8 @@
 const clearAllCookies = (req, res) => {
-  res.clearCookie("otp");
-  res.clearCookie("email");
-  res.clearCookie("user");
-  return true;
+  res.clearCookie("otp", { path: "/" });
+  res.clearCookie("lastOtpSentAt", { path: "/" });
+  res.clearCookie("email", { path: "/" });
+  res.clearCookie("user", { path: "/" });
 };
 
 const setUserCookies = (req, res, user) => {
@@ -20,9 +20,11 @@ const setUserCookies = (req, res, user) => {
       address: user.address,
       verified: user.verified,
     }),
-    { expire: 900000 + Date.now() }
+    {
+      expires: new Date(Date.now() + 900000),
+      httpOnly: true,
+    }
   );
-  return true;
 };
 
 module.exports = { setUserCookies, clearAllCookies };
