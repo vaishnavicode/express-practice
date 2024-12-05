@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Upload Profile Picture</title>
+  </head>
+  <body>
+    <center>
+      <form
+        action="/uploadProfileImage"
+        method="POST"
+        enctype="multipart/form-data"
+        name="profileImageFile"
+        id="profileImageFile"
+      >
+        <h2>Upload Profile Picture</h2>
+        <table>
+          <tr id="fileInputRow">
+            <th><label for="profileImageFile">Upload Profile Image:</label></th>
+            <td>
+              <input
+                type="file"
+                name="profileImageFile"
+                id="profileImageFile"
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="2">
+              <button type="submit">Submit</button>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="2">
+              <a href="/editProfile" id="backToProfile">Back</a>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </center>
+  </body>
+</html>

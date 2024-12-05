@@ -1,6 +1,8 @@
 const { validateUser, calculateAge } = require("./utils/userFunctions");
 const { setUserCookies, clearAllCookies } = require("./utils/cookies");
 const { getUsers, postUser, editUser } = require("../db.js");
+const multer = require("multer");
+const upload = multer();
 
 // Handles user login: checks user credentials and sets cookies if successful
 const userLogin = (req, res) => {
@@ -124,7 +126,6 @@ const userEdit = (req, res) => {
   const { firstName, lastName, phone, dob, address, profileImageUrl } =
     req.body;
 
-  // Create an updated user object with new values
   const updated = {
     ...JSON.parse(req.cookies.user),
     firstName: firstName,
@@ -132,22 +133,18 @@ const userEdit = (req, res) => {
     phone: phone,
     dob: dob,
     address: address,
-    password: "Verified@0", // Default password set after verification
-    confirmPassword: "Verified@0", // Default password confirmation
+    password: "Verified@0",
+    confirmPassword: "Verified@0",
     profileImageUrl: profileImageUrl,
   };
 
-  // Validate updated user information
   if (!validateUser(updated)) {
-    // If validation passes, update user data in the database
     editUser(
       (err, success) => {
         if (err) {
-          // Handle any database errors and redirect to edit profile
           console.log(err.sqlMessage);
           res.redirect("/editProfile");
         } else {
-          // Set updated cookies and redirect to the profile page
           setUserCookies(req, res, updated);
           console.log("User changed");
           res.redirect("/profile");
@@ -162,7 +159,6 @@ const userEdit = (req, res) => {
       JSON.parse(req.cookies.user).userId
     );
   } else {
-    // If validation fails, render the edit profile page with errors
     return res.render("editProfile", {
       user: JSON.parse(req.cookies.user),
       errors: validateUser(updated),

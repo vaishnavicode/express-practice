@@ -12,15 +12,18 @@
       <form action="/editProfile" method="POST">
         <table>
           <tr>
-            <th><label for="firstName">Profile Picture:</label></th>
+            <th><label for="profileImageUrl">Profile Picture (URL):</label></th>
             <td>
               <input
                 type="url"
                 name="profileImageUrl"
                 value="<%= user.profileImageUrl %>"
+                id="profileImageUrl"
               />
+              <a href="/uploadProfileImage">Upload</a>
             </td>
           </tr>
+
           <% if (errors && errors.profileImageUrl) { %>
           <tr>
             <td colspan="2" style="color: red">

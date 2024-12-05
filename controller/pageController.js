@@ -125,6 +125,16 @@ const editProfilePage = (req, res) => {
     errors: {},
   });
 };
+const uploadProfileImagePage = (req, res) => {
+  if (!req.cookies.user) {
+    res.render("error", {
+      heading: "No User Found",
+      content: "Please log in.",
+      redirect: { desc: "Login", link: "/login" },
+    });
+  }
+  return res.render("uploadpicture", {});
+};
 
 module.exports = {
   homePage,
@@ -134,4 +144,5 @@ module.exports = {
   userPage,
   profilePage,
   editProfilePage,
+  uploadProfileImagePage,
 };
