@@ -26,7 +26,7 @@ const userPage = (req, res) => {
     if (err) {
       return res.render("error", {
         heading: "Database Error",
-        content: "Trouble retriving users",
+        content: "Trouble retrieving users",
         redirect: { desc: "Try again", link: "/login" },
       });
     }
@@ -78,7 +78,8 @@ const userSignUpPage = (req, res) => {
 
 const verificationPage = (req, res) => {
   if (req.cookies.user) {
-    if (JSON.parse(req.cookies.user).verified) {
+    const user = req.cookies.user && JSON.parse(req.cookies.user);
+    if (user && user.verified) {
       return res.render("error", {
         heading: "Already Verified",
         content: "Cannot verify again!",
@@ -110,8 +111,10 @@ const profilePage = (req, res) => {
       redirect: { desc: "Login", link: "/login" },
     });
   }
-  return res.render("profile", { user: JSON.parse(req.cookies.user) });
+  const user = req.cookies.user && JSON.parse(req.cookies.user);
+  return res.render("profile", { user });
 };
+
 const editProfilePage = (req, res) => {
   if (!req.cookies.user) {
     res.render("error", {
@@ -120,11 +123,13 @@ const editProfilePage = (req, res) => {
       redirect: { desc: "Login", link: "/login" },
     });
   }
+  const user = req.cookies.user && JSON.parse(req.cookies.user);
   return res.render("editProfile", {
-    user: JSON.parse(req.cookies.user),
+    user,
     errors: {},
   });
 };
+
 const uploadProfileImagePage = (req, res) => {
   if (!req.cookies.user) {
     res.render("error", {

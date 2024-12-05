@@ -4,16 +4,13 @@ const { getUsers, postUser, editUser } = require("../db.js");
 const multer = require("multer");
 const upload = multer();
 
-// Handles user login: checks user credentials and sets cookies if successful
 const userLogin = (req, res) => {
   const { user, userPassword } = req.body;
   const error = {};
   var flags = [false, false];
 
-  // Retrieve users from the database
   getUsers((err, users) => {
     if (err) {
-      // In case of a database error, render error page
       return res.render("error", {
         heading: "Database Error",
         content: "Trouble retrieving users",
@@ -21,20 +18,17 @@ const userLogin = (req, res) => {
       });
     }
 
-    // Check if the user exists and the password matches
     for (let index of users) {
       if (user === index.email || user === index.userName) {
         flags[0] = true;
         if (userPassword === index.password) {
           flags[1] = true;
-          // Set cookies and redirect to home if login is successful
           setUserCookies(req, res, index);
           return res.redirect("/");
         }
       }
     }
 
-    // Return errors if login fails
     if (!flags[0]) {
       error["users"] = "Username or email is not correct.";
     }
@@ -48,11 +42,9 @@ const userLogin = (req, res) => {
   });
 };
 
-// Handles user sign-up: validates user input and creates a new user and automatically logs them in
 const userSignUp = (req, res) => {
   clearAllCookies(req, res);
 
-  // Extract user details from request body
   const {
     firstName,
     lastName,
@@ -65,7 +57,6 @@ const userSignUp = (req, res) => {
     confirmPassword,
   } = req.body;
 
-  // Create user object
   var user = {
     userName: userName,
     firstName: firstName,
@@ -81,17 +72,14 @@ const userSignUp = (req, res) => {
     verified: false,
   };
 
-  // Validate user input
   if (
     !validateUser({
       ...user,
       profileImageUrl: "https://randomuser.me/api/portraits/lego/1.jpg",
     })
   ) {
-    // If validation passes, insert user into the database
     postUser((err, success) => {
       if (err) {
-        // Handle errors if the user already exists (e.g., email or username conflict)
         return res.render("signup", {
           errors: {
             email: err.sqlMessage.includes("email")
@@ -104,30 +92,36 @@ const userSignUp = (req, res) => {
           user: user,
         });
       } else {
-        // Set cookies for the new user and redirect to home page
         setUserCookies(req, res, user);
         return res.redirect("/");
       }
     }, user);
   } else {
-    // If validation fails, render the signup page with errors
     return res.render("signup", { errors: validateUser(user), user: user });
   }
 };
 
-// Handles user logout: clears all cookies and redirects to the home page
 const userLogOut = (req, res) => {
   clearAllCookies(req, res);
   res.redirect("/");
 };
 
-// Handles user profile editing: updates user details and sets updated cookies
 const userEdit = (req, res) => {
   const { firstName, lastName, phone, dob, address, profileImageUrl } =
     req.body;
 
+  const userCookie = req.cookies.user && JSON.parse(req.cookies.user);
+
+  if (!userCookie) {
+    return res.render("error", {
+      heading: "No User Found",
+      content: "Please log in to edit your profile.",
+      redirect: { desc: "Login", link: "/login" },
+    });
+  }
+
   const updated = {
-    ...JSON.parse(req.cookies.user),
+    ...userCookie,
     firstName: firstName,
     lastName: lastName,
     phone: phone,
@@ -156,11 +150,11 @@ const userEdit = (req, res) => {
       dob,
       address,
       profileImageUrl,
-      JSON.parse(req.cookies.user).userId
+      userCookie.userId
     );
   } else {
     return res.render("editProfile", {
-      user: JSON.parse(req.cookies.user),
+      user: userCookie,
       errors: validateUser(updated),
     });
   }
