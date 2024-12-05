@@ -19,6 +19,7 @@ const setUserCookies = (req, res, user) => {
       age: user.age,
       address: user.address,
       verified: user.verified,
+      profileImageUrl: user.profileImageUrl,
     }),
     {
       expires: new Date(Date.now() + 900000),
