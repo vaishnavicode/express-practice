@@ -80,7 +80,12 @@ const userSignUp = (req, res) => {
   };
 
   // Validate user input
-  if (!validateUser(user)) {
+  if (
+    !validateUser({
+      ...user,
+      profileImageUrl: "https://randomuser.me/api/portraits/lego/1.jpg",
+    })
+  ) {
     // If validation passes, insert user into the database
     postUser((err, success) => {
       if (err) {
@@ -116,7 +121,8 @@ const userLogOut = (req, res) => {
 
 // Handles user profile editing: updates user details and sets updated cookies
 const userEdit = (req, res) => {
-  const { firstName, lastName, phone, dob, address } = req.body;
+  const { firstName, lastName, phone, dob, address, profileImageUrl } =
+    req.body;
 
   // Create an updated user object with new values
   const updated = {
@@ -128,6 +134,7 @@ const userEdit = (req, res) => {
     address: address,
     password: "Verified@0", // Default password set after verification
     confirmPassword: "Verified@0", // Default password confirmation
+    profileImageUrl: profileImageUrl,
   };
 
   // Validate updated user information
@@ -151,6 +158,7 @@ const userEdit = (req, res) => {
       phone,
       dob,
       address,
+      profileImageUrl,
       JSON.parse(req.cookies.user).userId
     );
   } else {

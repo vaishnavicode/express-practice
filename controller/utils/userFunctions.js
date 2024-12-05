@@ -4,7 +4,6 @@ const calculateAge = (dob) => {
 
   return today.getFullYear() - dob.getFullYear();
 };
-
 const validateUser = (user) => {
   const errors = {};
 
@@ -69,6 +68,17 @@ const validateUser = (user) => {
   // Address validation
   if (!user.address || user.address.trim() === "") {
     errors["address"] = "Address is required.";
+  }
+
+  // Profile image URL validation
+  if (!user.profileImageUrl || user.profileImageUrl.trim() === "") {
+    errors["profileImageUrl"] = "Profile image URL is required.";
+  } else {
+    const imageUrlRegex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|svg))$/i;
+    if (!imageUrlRegex.test(user.profileImageUrl)) {
+      errors["profileImageUrl"] = `Profile image URL must be a valid image URL 
+        (png, jpg, jpeg, gif, bmp, svg).`;
+    }
   }
 
   // Return errors object if there are any errors, otherwise return null

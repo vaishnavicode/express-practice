@@ -3,8 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
     <title>Login</title>
+    <script>
+      // JavaScript function to toggle password visibility
+      function togglePassword() {
+        var passwordField = document.getElementById("userPassword");
+        var toggleIcon = document.getElementById("togglePasswordIcon");
+
+        if (passwordField.type === "password") {
+          passwordField.type = "text"; // Show password
+          toggleIcon.classList.remove("fa-eye-slash");
+          toggleIcon.classList.add("fa-eye");
+        } else {
+          passwordField.type = "password"; // Hide password
+          toggleIcon.classList.remove("fa-eye");
+          toggleIcon.classList.add("fa-eye-slash");
+        }
+      }
+    </script>
   </head>
   <body>
     <center>
@@ -31,12 +52,18 @@
 
           <tr>
             <th><label for="userPassword">Password:</label></th>
-            <td>
+            <td class="password-container">
               <input
                 type="password"
                 name="userPassword"
+                id="userPassword"
                 value="<%= user ? user.userPassword : '' %>"
               />
+              <i
+                class="fas fa-eye-slash toggle-password"
+                id="togglePasswordIcon"
+                onclick="togglePassword()"
+              ></i>
             </td>
           </tr>
           <% if (errors && errors.password) { %>

@@ -59,6 +59,7 @@ const updateUserVerified = (callback, userId) => {
     return callback(null, true);
   });
 };
+
 const editUser = (
   callback,
   firstName,
@@ -66,17 +67,18 @@ const editUser = (
   phone,
   dob,
   address,
-  userId
+  userId,
+  profileImageUrl
 ) => {
   var updateVerifiedQuery = `
   UPDATE users
-  SET firstName = ?, lastName = ?,phone = ?, dob = ?, address = ?
+  SET firstName = ?, lastName = ?,phone = ?, dob = ?, address = ?, profileImageUrl = ?
   WHERE userId = ?
 `;
 
   connection.query(
     updateVerifiedQuery,
-    [firstName, lastName, phone, dob, address, userId],
+    [firstName, lastName, phone, dob, address, userId, profileImageUrl],
     (err, result) => {
       if (err) {
         console.log("Error updating user: ", err.sqlMessage);
@@ -89,4 +91,5 @@ const editUser = (
     }
   );
 };
+
 module.exports = { getUsers, postUser, updateUserVerified, editUser };

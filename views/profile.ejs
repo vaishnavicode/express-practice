@@ -11,6 +11,11 @@
       <h2>User Profile</h2>
       <table>
         <tr>
+          <td colspan="2">
+            <img src="<%= user.profileImageUrl %>" alt="" id="profileImage" />
+          </td>
+        </tr>
+        <tr>
           <th><label for="firstName">Name:</label></th>
           <td><%= user.firstName %></td>
         </tr>

@@ -103,9 +103,23 @@ const verificationPage = (req, res) => {
 };
 
 const profilePage = (req, res) => {
+  if (!req.cookies.user) {
+    res.render("error", {
+      heading: "No User Found",
+      content: "Please log in.",
+      redirect: { desc: "Login", link: "/login" },
+    });
+  }
   return res.render("profile", { user: JSON.parse(req.cookies.user) });
 };
 const editProfilePage = (req, res) => {
+  if (!req.cookies.user) {
+    res.render("error", {
+      heading: "No User Found",
+      content: "Please log in.",
+      redirect: { desc: "Login", link: "/login" },
+    });
+  }
   return res.render("editProfile", {
     user: JSON.parse(req.cookies.user),
     errors: {},

@@ -19,6 +19,7 @@
         <h1>Users</h1>
         <thead>
           <tr>
+            <th>Profile Image</th>
             <th>ID</th>
             <th>Name</th>
             <th>Surname</th>
@@ -34,6 +35,9 @@
         <tbody>
           <% usersList.forEach(function(user) { %>
           <tr>
+            <td>
+              <img src="<%= user.profileImageUrl %>" alt="" id="profileImage" />
+            </td>
             <td><%= user.userId %></td>
             <td><%= user.firstName %></td>
             <td><%= user.lastName %></td>
