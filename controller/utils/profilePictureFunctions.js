@@ -9,11 +9,11 @@ v2.config({
   api_secret: "rzcIkExHDa_4Ud_ZdLmCT1TDBiY",
 });
 
-const saveProfilePicture = async (id) => {
+const saveProfilePicture = async (id, filename) => {
   // Upload an image
   const uploadResult = await v2.uploader
     .upload(
-      "https://static.wikia.nocookie.net/disney/images/9/96/Studio_Ghibli_Logo.jpg/revision/latest?cb=20140621101318",
+      `C:/Users/Ace PC37/Desktop/Temp/Express/Express Practice/uploads/${filename}`,
       {
         public_id: `${id}`,
       }
@@ -22,7 +22,7 @@ const saveProfilePicture = async (id) => {
       console.log(error);
     });
 
-  uploadResult;
+  return uploadResult.url;
 };
 
 const convertImage = (usernameFile) => {
@@ -96,7 +96,6 @@ const renameOtherPictures = (usernameFile) => {
 
     try {
       fs.renameSync(oldPath, newPath);
-      console.log(`Renamed: ${file} -> ${newName}`);
     } catch (error) {
       console.error(`Error renaming ${file}:`, error.message);
     }

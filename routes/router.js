@@ -27,6 +27,7 @@ const {
   validateProfileImageUrl,
 } = require("../controller/utils/userFunctions");
 const {
+  saveProfilePicture,
   renameOtherPictures,
   deleteOlderImages,
 } = require("../controller/utils/profilePictureFunctions");
@@ -108,7 +109,19 @@ router.post(
       if (err) {
         res.redirect("/uploadProfileImage?error=true");
       } else {
-        next();
+        const username = req.cookies.user
+          ? JSON.parse(req.cookies.user).userName
+          : "";
+        saveProfilePicture(username, `${username}_1.png`)
+          .then((url) => {
+            res.cookie("uploadedImageUrl", url);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            next();
+          });
       }
     });
   },

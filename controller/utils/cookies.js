@@ -3,6 +3,7 @@ const clearAllCookies = (req, res) => {
   res.clearCookie("lastOtpSentAt", { path: "/" });
   res.clearCookie("email", { path: "/" });
   res.clearCookie("user", { path: "/" });
+  res.clearCookie("uploadedImageUrl", { path: "/" });
 };
 
 const setUserCookies = (req, res, user) => {

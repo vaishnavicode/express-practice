@@ -71,7 +71,7 @@ const validateUser = (user) => {
   }
 
   // Profile image URL validation
-  if (!user.profileImageUrl || user.profileImageUrl.trim() === "") {
+  if (!user.profileImageUrl) {
     errors["profileImageUrl"] = "Profile image URL is required.";
   } else {
     const imageUrlRegex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|svg))$/i;

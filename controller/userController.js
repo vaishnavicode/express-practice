@@ -1,8 +1,6 @@
 const { validateUser, calculateAge } = require("./utils/userFunctions");
 const { setUserCookies, clearAllCookies } = require("./utils/cookies");
 const { getUsers, postUser, editUser } = require("../db.js");
-const multer = require("multer");
-const upload = multer();
 
 const userLogin = (req, res) => {
   const { user, userPassword } = req.body;
@@ -93,6 +91,7 @@ const userSignUp = (req, res) => {
         });
       } else {
         setUserCookies(req, res, user);
+        res.clearCookie("uploadedImageUrl", { path: "/" });
         return res.redirect("/");
       }
     }, user);
@@ -131,6 +130,12 @@ const userEdit = (req, res) => {
     confirmPassword: "Verified@0",
     profileImageUrl: profileImageUrl,
   };
+
+  console.log("req.cookies.uploadedImageUrl", req.cookies.uploadedImageUrl);
+
+  if (req.cookies.uploadedImageUrl) {
+    updated.profileImageUrl = req.cookies.uploadedImageUrl;
+  }
 
   if (!validateUser(updated)) {
     editUser(
