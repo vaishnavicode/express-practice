@@ -1,10 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
 
-// Import controllers
 const {
   homePage,
   userSignUpPage,
@@ -30,6 +28,7 @@ const {
 } = require("../controller/utils/userFunctions");
 const {
   renameOtherPictures,
+  deleteOlderImages,
 } = require("../controller/utils/profilePictureFunctions");
 
 const uploadPath =
@@ -39,6 +38,8 @@ if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
 }
 
+setInterval(() => deleteOlderImages("/path/to/directory"), 3600000);
+
 const preprocessUploads = (req, res, next) => {
   try {
     const user = JSON.parse(req.cookies.user);
@@ -47,8 +48,6 @@ const preprocessUploads = (req, res, next) => {
     }
 
     const username = user.userName;
-
-    // Call renameOtherPictures before any upload starts
     renameOtherPictures(username);
     console.log(`Preprocessing complete for user: ${username}`);
     next();
@@ -75,7 +74,7 @@ const storage = multer.diskStorage({
 
       const user = JSON.parse(req.cookies.user);
       const username = user.userName;
-      const extension = ".png"; // Hardcoded to .png, change if needed
+      const extension = ".png";
       const filename = `${username}_1${extension}`;
       cb(null, filename);
     } catch (error) {
@@ -99,6 +98,7 @@ router.get("/users", userPage);
 router.get("/profile", profilePage);
 router.get("/editProfile", editProfilePage);
 router.post("/editProfile", userEdit);
+
 router.get("/uploadProfileImage", uploadProfileImagePage);
 router.post(
   "/uploadProfileImage",

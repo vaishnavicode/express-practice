@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 
-// Configuration
 v2.config({
   cloud_name: "daxhdgmdb",
   api_key: "626157968284864",
@@ -39,11 +38,9 @@ const convertImage = (usernameFile) => {
     });
 };
 
-const deleteOlderImages = () => {
-  const directoryPath =
-    "C:/Users/Ace PC37/Desktop/Temp/Express/Express Practice/uploads";
-
-  cutoffDate.setDate(new Date().getDate() - 30);
+const deleteOlderImages = (directoryPath) => {
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - 30);
 
   fs.readdir(directoryPath, (err, files) => {
     if (err) {
