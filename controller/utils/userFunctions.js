@@ -89,4 +89,26 @@ const validateUser = (user) => {
   }
 };
 
-module.exports = { calculateAge, validateUser };
+const validateProfileImageUrl = (filename) => {
+  if (!filename) {
+    return {
+      error: { profileImageUrl: "Profile image file name is required." },
+    };
+  }
+
+  const allowedExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg"];
+  const fileExtension = filename
+    .slice(((filename.lastIndexOf(".") - 1) >>> 0) + 2)
+    .toLowerCase();
+
+  if (!allowedExtensions.includes(`.${fileExtension}`)) {
+    return {
+      profileImageUrl:
+        "Profile image must have a valid image extension (JPG, JPEG, PNG, GIF, BMP, SVG).",
+    };
+  }
+
+  return null;
+};
+
+module.exports = { calculateAge, validateUser, validateProfileImageUrl };

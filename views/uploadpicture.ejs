@@ -9,7 +9,7 @@
   <body>
     <center>
       <form
-        action="/uploadProfileImage"
+        action="http://localhost:3000/uploadProfileImage"
         method="POST"
         enctype="multipart/form-data"
         name="profileImageFile"
@@ -27,6 +27,13 @@
               />
             </td>
           </tr>
+          <% if (errors && errors.profileImageFile) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.profileImageFile %></strong>
+            </td>
+          </tr>
+          <% } %>
 
           <tr>
             <td colspan="2">

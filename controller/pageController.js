@@ -138,7 +138,15 @@ const uploadProfileImagePage = (req, res) => {
       redirect: { desc: "Login", link: "/login" },
     });
   }
-  return res.render("uploadpicture", {});
+  if (req.query && req.query.error) {
+    return res.render("uploadpicture", {
+      errors: {
+        profileImageFile:
+          "Profile image must have a valid image extension (JPG, JPEG, PNG, GIF, BMP, SVG).",
+      },
+    });
+  }
+  return res.render("uploadpicture", { errors: {} });
 };
 
 module.exports = {

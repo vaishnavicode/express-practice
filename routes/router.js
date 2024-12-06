@@ -25,6 +25,9 @@ const {
 
 const { uploadProfileImage } = require("../controller/profileImageController");
 const { verifyEmail } = require("../controller/verificationController");
+const {
+  validateProfileImageUrl,
+} = require("../controller/utils/userFunctions");
 
 const uploadPath = path.join(__dirname, "../uploads");
 
@@ -37,7 +40,11 @@ const storage = multer.diskStorage({
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
-    console.log(req.cookies.user);
+    const validationResult = validateProfileImageUrl(file.originalname);
+    console.log(validationResult);
+    if (validationResult) {
+      return cb(new Error(validationResult.profileImageUrl), false);
+    }
     cb(
       null,
       JSON.parse(req.cookies.user).userName + path.extname(file.originalname)
@@ -45,7 +52,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage }).single("profileImageFile");
 
 router.get("/", homePage);
 router.get("/login", userLoginPage);
@@ -61,10 +68,22 @@ router.get("/profile", profilePage);
 router.get("/editProfile", editProfilePage);
 router.post("/editProfile", userEdit);
 router.get("/uploadProfileImage", uploadProfileImagePage);
-
 router.post(
   "/uploadProfileImage",
-  upload.single("profileImageFile"),
+  (req, res, next) => {
+    console.log("Upload started");
+
+    upload(req, res, (err) => {
+      console.log(1);
+      if (err) {
+        console.log("Error during file upload");
+        res.redirect("/uploadProfileImage?error=true");
+      } else {
+        console.log(2);
+        next();
+      }
+    });
+  },
   uploadProfileImage
 );
 

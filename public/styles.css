@@ -1,3 +1,4 @@
+/* Existing Styles */
 th {
   text-align: left;
   padding: 5px;
@@ -44,7 +45,10 @@ div {
 i {
   margin-right: 10px;
   margin-left: 10px;
-  padding-top: 5px;
+  margin-top: 5px;
+  background-color: white;
+  padding-bottom: 3px;
+  padding-left: 3px;
 }
 
 img {
@@ -183,6 +187,20 @@ input[type="date"] {
   padding: 8px;
   margin-top: 5px;
   box-sizing: border-box;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+input[type="text"] {
+  word-wrap: break-word;
 }
 
 button {
