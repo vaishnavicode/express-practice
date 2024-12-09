@@ -70,8 +70,12 @@ const uploadProfileImage = (req, res) => {
           res.redirect("/editProfile");
         });
     } else {
-      res.cookie("changedImageUrl", profileImageUrl);
-      res.redirect("/editProfile");
+      if (!validateProfileImageUrl(profileImageUrl)) {
+        res.cookie("changedImageUrl", profileImageUrl);
+        res.redirect("/editProfile");
+      } else {
+        return res.redirect("/uploadProfileImage?error=true");
+      }
     }
   });
 };
