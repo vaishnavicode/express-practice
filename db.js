@@ -9,6 +9,7 @@ const getUsers = (callback) => {
     return callback(null, result);
   });
 };
+
 const getPastProfileImages = (callback, userId) => {
   var pastProfileImageQuery = `SELECT * from user_profile_pictures where userId=? AND active = FALSE`;
   connection.query(pastProfileImageQuery, [userId], (err, result) => {

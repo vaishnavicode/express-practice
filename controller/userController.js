@@ -74,7 +74,7 @@ const userSignUp = (req, res) => {
     !validateUser({
       ...user,
       profileImageUrl:
-        "https://asset.cloudinary.com/daxhdgmdb/fa5ecee4eb351ce37850a0cca7ef7830",
+        "https://res.cloudinary.com/daxhdgmdb/image/upload/v1733722641/user-circle-svgrepo-com_vbvlkr.png",
     })
   ) {
     postUser((err, success) => {
