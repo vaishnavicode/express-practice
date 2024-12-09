@@ -44,38 +44,6 @@ const convertImage = (usernameFile) => {
     });
 };
 
-const deleteOlderImages = (directoryPath) => {
-  const cutoffDate = new Date();
-  cutoffDate.setDate(cutoffDate.getDate() - 30);
-
-  fs.readdir(directoryPath, (err, files) => {
-    if (err) {
-      console.error("Error reading directory:", err);
-      return;
-    }
-
-    files.forEach((file) => {
-      const filePath = path.join(directoryPath, file);
-      fs.stat(filePath, (err, stats) => {
-        if (err) {
-          console.error("Error getting file stats:", err);
-          return;
-        }
-
-        if (stats.isFile() && stats.birthtime < cutoffDate) {
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.error("Error deleting file:", err);
-            } else {
-              console.log(`Deleted ${file}`);
-            }
-          });
-        }
-      });
-    });
-  });
-};
-
 module.exports = {
   saveProfilePicture,
   convertImage,
