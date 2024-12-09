@@ -79,5 +79,4 @@ const deleteOlderImages = (directoryPath) => {
 module.exports = {
   saveProfilePicture,
   convertImage,
-  deleteOlderImages,
 };

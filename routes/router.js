@@ -29,7 +29,6 @@ const {
 } = require("../controller/utils/userFunctions");
 const {
   saveProfilePicture,
-  deleteOlderImages,
 } = require("../controller/utils/profilePictureFunctions");
 
 const uploadPath =
@@ -38,8 +37,6 @@ const uploadPath =
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
 }
-
-setInterval(() => deleteOlderImages("/path/to/directory"), 3600000);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
