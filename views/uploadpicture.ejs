@@ -9,16 +9,37 @@
   <body>
     <center>
       <form
-        action="http://localhost:3000/uploadProfileImage"
+        action="/uploadProfileImage"
         method="POST"
         enctype="multipart/form-data"
-        name="profileImageFile"
-        id="profileImageFile"
       >
         <h2>Upload Profile Picture</h2>
         <table>
+          <tr>
+            <th>Choose Upload Option:</th>
+            <td class="upload-options">
+              <input
+                type="radio"
+                name="uploadOption"
+                id="fileOption"
+                value="file"
+                checked
+              />
+              <label for="fileOption">File</label>
+              <input
+                type="radio"
+                name="uploadOption"
+                id="urlOption"
+                value="url"
+              />
+              <label for="urlOption">URL</label>
+            </td>
+          </tr>
+
           <tr id="fileInputRow">
-            <th><label for="profileImageFile">Upload Profile Image:</label></th>
+            <th>
+              <label for="profileImageFile">Upload Profile Image (File):</label>
+            </th>
             <td>
               <input
                 type="file"
@@ -27,10 +48,29 @@
               />
             </td>
           </tr>
+
+          <tr id="urlInputRow" style="display: none">
+            <th><label for="profileImageUrl">Profile Image URL:</label></th>
+            <td>
+              <input
+                type="url"
+                name="profileImageUrl"
+                id="profileImageUrl"
+                placeholder="Enter Image URL"
+              />
+            </td>
+          </tr>
+
           <% if (errors && errors.profileImageFile) { %>
           <tr>
             <td colspan="2" style="color: red">
               <strong><%= errors.profileImageFile %></strong>
+            </td>
+          </tr>
+          <% } %> <% if (errors && errors.profileImageUrl) { %>
+          <tr>
+            <td colspan="2" style="color: red">
+              <strong><%= errors.profileImageUrl %></strong>
             </td>
           </tr>
           <% } %>
@@ -49,5 +89,22 @@
         </table>
       </form>
     </center>
+
+    <script>
+      // Toggle visibility of input fields based on radio button selection
+      document
+        .getElementById("fileOption")
+        .addEventListener("change", function () {
+          document.getElementById("fileInputRow").style.display = "table-row";
+          document.getElementById("urlInputRow").style.display = "none";
+        });
+
+      document
+        .getElementById("urlOption")
+        .addEventListener("change", function () {
+          document.getElementById("fileInputRow").style.display = "none";
+          document.getElementById("urlInputRow").style.display = "table-row";
+        });
+    </script>
   </body>
 </html>

@@ -5,6 +5,7 @@ const clearAllCookies = (req, res) => {
   res.clearCookie("user", { path: "/" });
   res.clearCookie("uploadedImageUrl", { path: "/" });
   res.clearCookie("originalname", { path: "/" });
+  res.clearCookie("changedImageUrl", { path: "/" });
 };
 
 const setUserCookies = (req, res, user) => {

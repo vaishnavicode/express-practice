@@ -83,38 +83,41 @@ router.get("/uploadProfileImage", uploadProfileImagePage);
 router.post(
   "/uploadProfileImage",
   (req, res, next) => {
-    console.log("Starting upload...");
-
     upload(req, res, (err) => {
       if (err) {
         console.error("Error during file upload:", err.message || err);
         return res.redirect("/uploadProfileImage?error=true");
       }
 
-      const file = req.file;
-      if (!file) {
-        return res.redirect("/uploadProfileImage?error=true");
+      const { uploadOption, profileImageUrl } = req.body;
+
+      if (uploadOption === "file") {
+        const file = req.file;
+        if (!file) {
+          return res.redirect("/uploadProfileImage?error=true");
+        }
+
+        const originalname = file.originalname;
+
+        const username = JSON.parse(req.cookies.user).userName;
+
+        const newFilename = `${username}_${new Date().getTime()}`;
+
+        saveProfilePicture(originalname, newFilename)
+          .then((url) => {
+            res.cookie("uploadedImageUrl", url);
+            res.cookie("originalname", originalname);
+          })
+          .catch((err) => {
+            console.error("Error saving profile picture:", err.message || err);
+          })
+          .finally(() => {
+            next();
+          });
+      } else {
+        res.cookie("changedImageUrl", profileImageUrl);
+        next();
       }
-
-      const originalname = file.originalname;
-      console.log(`Uploaded file: ${originalname}`);
-
-      const username = JSON.parse(req.cookies.user).userName;
-
-      const newFilename = `${username}_${new Date().getTime()}`;
-      console.log(`Generated new filename: ${newFilename}`);
-
-      saveProfilePicture(originalname, newFilename)
-        .then((url) => {
-          res.cookie("uploadedImageUrl", url);
-          res.cookie("originalname", originalname);
-        })
-        .catch((err) => {
-          console.error("Error saving profile picture:", err.message || err);
-        })
-        .finally(() => {
-          next();
-        });
     });
   },
   uploadProfileImage

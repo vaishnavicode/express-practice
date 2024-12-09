@@ -12,25 +12,24 @@
       <form action="/editProfile" method="POST">
         <table>
           <tr>
-            <th><label for="profileImageUrl">Profile Picture (URL):</label></th>
-            <td>
-              <input
-                type="url"
-                name="profileImageUrl"
-                value="<%= user.profileImageUrl %>"
-                id="profileImageUrl"
-              />
-              <a href="/uploadProfileImage">Upload</a>
-            </td>
-          </tr>
+            <td colspan="2">
+              <% if (user.profileImageUrl) { %>
 
-          <% if (errors && errors.profileImageUrl) { %>
-          <tr>
-            <td colspan="2" style="color: red">
-              <strong><%= errors.profileImageUrl %></strong>
+              <a href="/uploadProfileImage" id="edit-profile-picture"
+                ><img
+                  id="profileImage"
+                  src="<%= user.profileImageUrl %>"
+                  alt="Profile Image"
+                  width="100"
+                  height="100"
+                />
+                <% } %>
+                <div class="overlay">
+                  <span>EDIT</span>
+                </div></a
+              >
             </td>
           </tr>
-          <% } %>
 
           <tr>
             <th><label for="firstName">Name:</label></th>

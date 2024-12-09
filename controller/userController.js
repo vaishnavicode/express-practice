@@ -106,8 +106,7 @@ const userLogOut = (req, res) => {
 };
 
 const userEdit = (req, res) => {
-  const { firstName, lastName, phone, dob, address, profileImageUrl } =
-    req.body;
+  const { firstName, lastName, phone, dob, address } = req.body;
 
   const userCookie = req.cookies.user && JSON.parse(req.cookies.user);
 
@@ -128,11 +127,12 @@ const userEdit = (req, res) => {
     address,
     password: "Verified@0",
     confirmPassword: "Verified@0",
-    profileImageUrl,
   };
 
   if (req.cookies.uploadedImageUrl) {
     updated.profileImageUrl = req.cookies.uploadedImageUrl;
+  } else if (req.cookies.changedImageUrl) {
+    updated.profileImageUrl = req.cookies.changedImageUrl;
   }
 
   const originalname = req.cookies.originalname;
@@ -155,6 +155,7 @@ const userEdit = (req, res) => {
       setUserCookies(req, res, updated);
       res.clearCookie("uploadedImageUrl");
       res.clearCookie("originalname");
+      res.clearCookie("changedImageUrl");
       return res.redirect("/profile");
     },
     updated.firstName,
