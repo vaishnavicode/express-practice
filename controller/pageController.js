@@ -1,4 +1,5 @@
 const { getUsers, getPastProfileImages } = require("../db.js");
+const { calculateAge } = require("./utils/userFunctions.js");
 const { verifyEmail } = require("./verificationController.js");
 
 const homePage = (req, res) => {
@@ -34,6 +35,10 @@ const userPage = (req, res) => {
     if (req.cookies.user) {
       const user = JSON.parse(req.cookies.user);
       if (user.verified) {
+        users.map((value) => {
+          value.age = calculateAge(value.dob);
+          value.password = "Password@0";
+        });
         return res.render("users", {
           usersList: users,
           userName: user.userName,

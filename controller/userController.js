@@ -65,7 +65,6 @@ const userSignUp = (req, res) => {
     phone: phone,
     dob: dob,
     address: address,
-    age: calculateAge(dob),
     isAdmin: false,
     verified: false,
   };

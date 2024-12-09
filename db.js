@@ -34,8 +34,8 @@ const deleteUser = (callback, userId) => {
 
 const postUser = (callback, user) => {
   var addUserQuery = `
-      INSERT INTO users (userId, userName, firstName, lastName, email, password, phone, dob, age, address, isAdmin, verified)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO users (userId, userName, firstName, lastName, email, password, phone, dob, address, isAdmin, verified)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
   connection.query(
@@ -49,7 +49,6 @@ const postUser = (callback, user) => {
       user.password,
       user.phone,
       user.dob,
-      user.age,
       user.address,
       user.isAdmin,
       user.verified,
