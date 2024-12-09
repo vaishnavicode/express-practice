@@ -1,7 +1,5 @@
 const { v2 } = require("cloudinary");
 const fs = require("fs");
-const path = require("path");
-const sharp = require("sharp");
 
 v2.config({
   cloud_name: "daxhdgmdb",
@@ -31,20 +29,6 @@ const saveProfilePicture = async (originalname, filename) => {
   return uploadResult.url;
 };
 
-const convertImage = (usernameFile) => {
-  const name = path.parse(`./../../uploads/${usernameFile}`).name;
-  sharp(`./../../uploads/${usernameFile}`)
-    .toFormat("png")
-    .toFile(`./../../uploads/${name}.png`, (err, info) => {
-      if (err) {
-        console.error("Error during image conversion:", err);
-      } else {
-        console.log(`Image converted successfully: ${name}.png`);
-      }
-    });
-};
-
 module.exports = {
   saveProfilePicture,
-  convertImage,
 };
