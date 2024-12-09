@@ -1,4 +1,4 @@
-const { getUsers } = require("../db.js");
+const { getUsers, getPastProfileImages } = require("../db.js");
 const { verifyEmail } = require("./verificationController.js");
 
 const homePage = (req, res) => {
@@ -131,22 +131,40 @@ const editProfilePage = (req, res) => {
 };
 
 const uploadProfileImagePage = (req, res) => {
+  // Check if user is logged in
   if (!req.cookies.user) {
-    res.render("error", {
+    return res.render("error", {
       heading: "No User Found",
       content: "Please log in.",
       redirect: { desc: "Login", link: "/login" },
+      pastProfileImages: {},
     });
   }
-  if (req.query && req.query.error) {
-    return res.render("uploadpicture", {
-      errors: {
-        profileImageFile:
-          "Profile image must have a valid image extension (JPG, JPEG, PNG, GIF, BMP, SVG).",
-      },
-    });
-  }
-  return res.render("uploadpicture", { errors: {} });
+
+  const userId = JSON.parse(req.cookies.user).userId;
+  getPastProfileImages((err, pastProfileImages) => {
+    if (err) {
+      console.error("Error fetching past profile images:", err.message);
+      return res.render("error", {
+        heading: "Error",
+        content: "Unable to fetch past profile images. Please try again later.",
+        redirect: { desc: "Go Back", link: "/profile" },
+        pastProfileImages: {},
+      });
+    }
+
+    if (req.query && req.query.error) {
+      return res.render("uploadpicture", {
+        errors: {
+          profileImageFile:
+            "Profile image must have a valid image extension (JPG, JPEG, PNG, GIF, BMP, SVG).",
+        },
+        pastProfileImages,
+      });
+    }
+
+    return res.render("uploadpicture", { errors: {}, pastProfileImages });
+  }, userId);
 };
 
 module.exports = {

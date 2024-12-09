@@ -9,6 +9,16 @@ const getUsers = (callback) => {
     return callback(null, result);
   });
 };
+const getPastProfileImages = (callback, userId) => {
+  var pastProfileImageQuery = `SELECT * from user_profile_pictures where userId=? AND active = FALSE`;
+  connection.query(pastProfileImageQuery, [userId], (err, result) => {
+    if (err) {
+      console.log("Error fetching users: ", err.sqlMessage);
+      return callback(err, null);
+    }
+    return callback(null, result);
+  });
+};
 
 const postUser = (callback, user) => {
   var addUserQuery = `
@@ -193,4 +203,10 @@ const editUser = async (
   }
 };
 
-module.exports = { getUsers, postUser, updateUserVerified, editUser };
+module.exports = {
+  getUsers,
+  postUser,
+  updateUserVerified,
+  editUser,
+  getPastProfileImages,
+};

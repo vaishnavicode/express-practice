@@ -88,10 +88,34 @@
           </tr>
         </table>
       </form>
+      <div class="past-profile-pictures">
+        <h2>Past Profile Pictures</h2>
+        <% if (pastProfileImages && pastProfileImages.length > 0) { %>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap">
+          <% pastProfileImages.forEach((item) => { %>
+          <div style="text-align: center; cursor: pointer">
+            <img
+              src="<%= item.profileImageUrl %>"
+              alt="Past Profile Picture"
+              style="
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                border-radius: 50%;
+              "
+              data-url="<%= item.profileImageUrl %>"
+              class="selectable-image"
+            />
+          </div>
+          <% }); %>
+        </div>
+        <% } else { %>
+        <p>No past profile pictures available.</p>
+        <% } %>
+      </div>
     </center>
 
     <script>
-      // Toggle visibility of input fields based on radio button selection
       document
         .getElementById("fileOption")
         .addEventListener("change", function () {
@@ -105,6 +129,18 @@
           document.getElementById("fileInputRow").style.display = "none";
           document.getElementById("urlInputRow").style.display = "table-row";
         });
+      document.querySelectorAll(".selectable-image").forEach((img) => {
+        img.addEventListener("click", function () {
+          const imageUrl = this.getAttribute("data-url");
+
+          document.getElementById("urlOption").checked = true;
+
+          document.getElementById("fileInputRow").style.display = "none";
+          document.getElementById("urlInputRow").style.display = "table-row";
+
+          document.getElementById("profileImageUrl").value = imageUrl;
+        });
+      });
     </script>
   </body>
 </html>
