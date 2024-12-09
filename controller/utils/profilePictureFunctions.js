@@ -9,18 +9,24 @@ v2.config({
   api_secret: "rzcIkExHDa_4Ud_ZdLmCT1TDBiY",
 });
 
-const saveProfilePicture = async (id, filename) => {
-  // Upload an image
+const saveProfilePicture = async (originalname, filename) => {
+  const filepath = `C:/Users/Ace PC37/Desktop/Temp/Express/Express Practice/uploads/${originalname}`;
   const uploadResult = await v2.uploader
-    .upload(
-      `C:/Users/Ace PC37/Desktop/Temp/Express/Express Practice/uploads/${filename}`,
-      {
-        public_id: `${id}`,
-      }
-    )
+    .upload(filepath, {
+      public_id: `${filename}`,
+    })
     .catch((error) => {
       console.log(error);
+      return "";
     });
+
+  if (uploadResult && uploadResult.url) {
+    fs.unlink(filepath, (err) => {
+      if (err) {
+        console.log("Error deleting file:", err);
+      }
+    });
+  }
 
   return uploadResult.url;
 };
@@ -70,41 +76,8 @@ const deleteOlderImages = (directoryPath) => {
   });
 };
 
-const renameOtherPictures = (usernameFile) => {
-  const directoryPath =
-    "C:/Users/Ace PC37/Desktop/Temp/Express/Express Practice/uploads";
-
-  const files = fs.readdirSync(directoryPath);
-
-  const filteredFiles = files.filter((file) =>
-    file.startsWith(usernameFile + "_")
-  );
-
-  filteredFiles.sort((a, b) => {
-    const numA = parseInt(a.match(/_(\d+)/)?.[1] || "0", 10);
-    const numB = parseInt(b.match(/_(\d+)/)?.[1] || "0", 10);
-    return numB - numA;
-  });
-
-  filteredFiles.forEach((file, index) => {
-    const extension = path.extname(file);
-    const newName = `${usernameFile}_${
-      parseInt(file.match(/_(\d+)/)?.[1] || "0", 10) + 1
-    }${extension}`;
-    const oldPath = path.join(directoryPath, file);
-    const newPath = path.join(directoryPath, newName);
-
-    try {
-      fs.renameSync(oldPath, newPath);
-    } catch (error) {
-      console.error(`Error renaming ${file}:`, error.message);
-    }
-  });
-};
-
 module.exports = {
   saveProfilePicture,
-  renameOtherPictures,
   convertImage,
   deleteOlderImages,
 };

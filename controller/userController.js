@@ -73,7 +73,8 @@ const userSignUp = (req, res) => {
   if (
     !validateUser({
       ...user,
-      profileImageUrl: "https://randomuser.me/api/portraits/lego/1.jpg",
+      profileImageUrl:
+        "https://asset.cloudinary.com/daxhdgmdb/fa5ecee4eb351ce37850a0cca7ef7830",
     })
   ) {
     postUser((err, success) => {
@@ -91,7 +92,6 @@ const userSignUp = (req, res) => {
         });
       } else {
         setUserCookies(req, res, user);
-        res.clearCookie("uploadedImageUrl", { path: "/" });
         return res.redirect("/");
       }
     }, user);
@@ -117,50 +117,56 @@ const userEdit = (req, res) => {
       content: "Please log in to edit your profile.",
       redirect: { desc: "Login", link: "/login" },
     });
-  } else {
-    const updated = {
-      ...userCookie,
-      firstName: firstName,
-      lastName: lastName,
-      phone: phone,
-      dob: dob,
-      address: address,
-      password: "Verified@0",
-      confirmPassword: "Verified@0",
-      profileImageUrl: profileImageUrl,
-    };
-
-    if (req.cookies.uploadedImageUrl) {
-      updated.profileImageUrl = req.cookies.uploadedImageUrl;
-    }
-
-    if (!validateUser(updated)) {
-      editUser(
-        (err, success) => {
-          if (err) {
-            console.log(err.sqlMessage);
-            res.redirect("/editProfile");
-          } else {
-            setUserCookies(req, res, updated);
-            console.log("User changed");
-            res.redirect("/profile");
-          }
-        },
-        updated.firstName,
-        updated.lastName,
-        updated.phone,
-        updated.dob,
-        updated.address,
-        updated.profileImageUrl,
-        userCookie.userId
-      );
-    } else {
-      return res.render("editProfile", {
-        user: userCookie,
-        errors: validateUser(updated),
-      });
-    }
   }
+
+  const updated = {
+    ...userCookie,
+    firstName,
+    lastName,
+    phone,
+    dob,
+    address,
+    password: "Verified@0",
+    confirmPassword: "Verified@0",
+    profileImageUrl,
+  };
+
+  if (req.cookies.uploadedImageUrl) {
+    updated.profileImageUrl = req.cookies.uploadedImageUrl;
+  }
+
+  const originalname = req.cookies.originalname;
+
+  const validationErrors = validateUser(updated);
+  if (validationErrors) {
+    return res.render("editProfile", {
+      user: userCookie,
+      errors: validationErrors,
+    });
+  }
+
+  editUser(
+    (err, success) => {
+      if (err) {
+        console.error("Error updating user profile:", err.message);
+        return res.redirect("/editProfile");
+      }
+
+      setUserCookies(req, res, updated);
+      res.clearCookie("uploadedImageUrl");
+      res.clearCookie("originalname");
+      return res.redirect("/profile");
+    },
+    updated.firstName,
+    updated.lastName,
+    updated.phone,
+    updated.dob,
+    updated.address,
+    userCookie.userId,
+    updated.profileImageUrl,
+    userCookie.profileImageUrl !== updated.profileImageUrl,
+    originalname || ""
+  );
 };
 
 module.exports = {

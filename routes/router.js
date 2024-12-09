@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
+const path = require("path");
 
 const {
   homePage,
@@ -28,7 +29,6 @@ const {
 } = require("../controller/utils/userFunctions");
 const {
   saveProfilePicture,
-  renameOtherPictures,
   deleteOlderImages,
 } = require("../controller/utils/profilePictureFunctions");
 
@@ -40,23 +40,6 @@ if (!fs.existsSync(uploadPath)) {
 }
 
 setInterval(() => deleteOlderImages("/path/to/directory"), 3600000);
-
-const preprocessUploads = (req, res, next) => {
-  try {
-    const user = JSON.parse(req.cookies.user);
-    if (!user || !user.userName) {
-      throw new Error("Invalid user information in cookies.");
-    }
-
-    const username = user.userName;
-    renameOtherPictures(username);
-    console.log(`Preprocessing complete for user: ${username}`);
-    next();
-  } catch (error) {
-    console.error("Error in preprocessing uploads:", error.message);
-    res.status(400).send({ error: error.message });
-  }
-};
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -73,11 +56,7 @@ const storage = multer.diskStorage({
         return cb(new Error(validationResult.profileImageUrl), false);
       }
 
-      const user = JSON.parse(req.cookies.user);
-      const username = user.userName;
-      const extension = ".png";
-      const filename = `${username}_1${extension}`;
-      cb(null, filename);
+      cb(null, file.originalname);
     } catch (error) {
       cb(error, false);
     }
@@ -103,26 +82,39 @@ router.post("/editProfile", userEdit);
 router.get("/uploadProfileImage", uploadProfileImagePage);
 router.post(
   "/uploadProfileImage",
-  preprocessUploads,
   (req, res, next) => {
-    upload(req, res, (err, filename) => {
+    console.log("Starting upload...");
+
+    upload(req, res, (err) => {
       if (err) {
-        res.redirect("/uploadProfileImage?error=true");
-      } else {
-        const username = req.cookies.user
-          ? JSON.parse(req.cookies.user).userName
-          : "";
-        saveProfilePicture(username, `${username}_1.png`)
-          .then((url) => {
-            res.cookie("uploadedImageUrl", url);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {
-            next();
-          });
+        console.error("Error during file upload:", err.message || err);
+        return res.redirect("/uploadProfileImage?error=true");
       }
+
+      const file = req.file;
+      if (!file) {
+        return res.redirect("/uploadProfileImage?error=true");
+      }
+
+      const originalname = file.originalname;
+      console.log(`Uploaded file: ${originalname}`);
+
+      const username = JSON.parse(req.cookies.user).userName;
+
+      const newFilename = `${username}_${new Date().getTime()}`;
+      console.log(`Generated new filename: ${newFilename}`);
+
+      saveProfilePicture(originalname, newFilename)
+        .then((url) => {
+          res.cookie("uploadedImageUrl", url);
+          res.cookie("originalname", originalname);
+        })
+        .catch((err) => {
+          console.error("Error saving profile picture:", err.message || err);
+        })
+        .finally(() => {
+          next();
+        });
     });
   },
   uploadProfileImage

@@ -4,6 +4,7 @@ const clearAllCookies = (req, res) => {
   res.clearCookie("email", { path: "/" });
   res.clearCookie("user", { path: "/" });
   res.clearCookie("uploadedImageUrl", { path: "/" });
+  res.clearCookie("originalname", { path: "/" });
 };
 
 const setUserCookies = (req, res, user) => {
