@@ -117,51 +117,49 @@ const userEdit = (req, res) => {
       content: "Please log in to edit your profile.",
       redirect: { desc: "Login", link: "/login" },
     });
-  }
-
-  const updated = {
-    ...userCookie,
-    firstName: firstName,
-    lastName: lastName,
-    phone: phone,
-    dob: dob,
-    address: address,
-    password: "Verified@0",
-    confirmPassword: "Verified@0",
-    profileImageUrl: profileImageUrl,
-  };
-
-  console.log("req.cookies.uploadedImageUrl", req.cookies.uploadedImageUrl);
-
-  if (req.cookies.uploadedImageUrl) {
-    updated.profileImageUrl = req.cookies.uploadedImageUrl;
-  }
-
-  if (!validateUser(updated)) {
-    editUser(
-      (err, success) => {
-        if (err) {
-          console.log(err.sqlMessage);
-          res.redirect("/editProfile");
-        } else {
-          setUserCookies(req, res, updated);
-          console.log("User changed");
-          res.redirect("/profile");
-        }
-      },
-      firstName,
-      lastName,
-      phone,
-      dob,
-      address,
-      profileImageUrl,
-      userCookie.userId
-    );
   } else {
-    return res.render("editProfile", {
-      user: userCookie,
-      errors: validateUser(updated),
-    });
+    const updated = {
+      ...userCookie,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      dob: dob,
+      address: address,
+      password: "Verified@0",
+      confirmPassword: "Verified@0",
+      profileImageUrl: profileImageUrl,
+    };
+
+    if (req.cookies.uploadedImageUrl) {
+      updated.profileImageUrl = req.cookies.uploadedImageUrl;
+    }
+
+    if (!validateUser(updated)) {
+      editUser(
+        (err, success) => {
+          if (err) {
+            console.log(err.sqlMessage);
+            res.redirect("/editProfile");
+          } else {
+            setUserCookies(req, res, updated);
+            console.log("User changed");
+            res.redirect("/profile");
+          }
+        },
+        updated.firstName,
+        updated.lastName,
+        updated.phone,
+        updated.dob,
+        updated.address,
+        updated.profileImageUrl,
+        userCookie.userId
+      );
+    } else {
+      return res.render("editProfile", {
+        user: userCookie,
+        errors: validateUser(updated),
+      });
+    }
   }
 };
 
