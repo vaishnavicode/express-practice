@@ -20,6 +20,17 @@ const getPastProfileImages = (callback, userId) => {
   });
 };
 
+const deleteUser = (callback, userId) => {
+  var deleteQuery = `Delete from users where userId=?`;
+  connection.query(deleteQuery, [userId], (err, result) => {
+    if (err) {
+      console.log("Error fetching users: ", err.sqlMessage);
+      return callback(err, null);
+    }
+    return callback(null, result);
+  });
+};
+
 const postUser = (callback, user) => {
   var addUserQuery = `
       INSERT INTO users (userId, userName, firstName, lastName, email, password, phone, dob, age, address, isAdmin, verified)
@@ -209,4 +220,5 @@ module.exports = {
   updateUserVerified,
   editUser,
   getPastProfileImages,
+  deleteUser,
 };

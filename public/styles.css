@@ -120,7 +120,8 @@ button[type="submit"] {
 
 #login-button:hover,
 .loginOrNot:hover,
-button[type="submit"]:hover {
+button[type="submit"]:hover,
+#delete-user-button:hover {
   background-color: red;
   color: white;
   border: 2px solid red;
@@ -130,6 +131,12 @@ button[type="submit"]:hover {
   background-color: white;
   color: blueviolet;
   border: 2px solid blueviolet;
+  border-radius: 15px;
+}
+#delete-user-button {
+  background-color: white;
+  color: red;
+  border: 2px solid red;
   border-radius: 15px;
 }
 

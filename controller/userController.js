@@ -1,6 +1,6 @@
 const { validateUser, calculateAge } = require("./utils/userFunctions");
 const { setUserCookies, clearAllCookies } = require("./utils/cookies");
-const { getUsers, postUser, editUser } = require("../db.js");
+const { getUsers, postUser, editUser, deleteUser } = require("../db.js");
 
 const userLogin = (req, res) => {
   const { user, userPassword } = req.body;
@@ -170,9 +170,30 @@ const userEdit = (req, res) => {
   );
 };
 
+const deleteUserPermanently = (req, res) => {
+  if (req.cookies.user) {
+    const userId = JSON.parse(req.cookies.user).userId;
+    deleteUser((err, result) => {
+      if (err) {
+        console.error("Error deleting user: ", err.sqlMessage);
+        return res
+          .status(500)
+          .send("An error occurred while deleting the user.");
+      }
+
+      console.log("User deleted successfully");
+      clearAllCookies(req, res);
+      return res.redirect("/");
+    }, userId);
+  } else {
+    return res.redirect("/");
+  }
+};
+
 module.exports = {
   userLogin,
   userSignUp,
   userLogOut,
   userEdit,
+  deleteUserPermanently,
 };

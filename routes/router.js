@@ -9,6 +9,7 @@ const {
   profilePage,
   editProfilePage,
   uploadProfileImagePage,
+  deleteUserPage,
 } = require("../controller/pageController");
 
 const {
@@ -16,6 +17,7 @@ const {
   userSignUp,
   userLogOut,
   userEdit,
+  deleteUserPermanently,
 } = require("../controller/userController");
 
 const { uploadProfileImage } = require("../controller/profileImageController");
@@ -34,8 +36,9 @@ router.get("/users", userPage);
 router.get("/profile", profilePage);
 router.get("/editProfile", editProfilePage);
 router.post("/editProfile", userEdit);
-
 router.get("/uploadProfileImage", uploadProfileImagePage);
 router.post("/uploadProfileImage", uploadProfileImage);
+router.get("/deleteProfile", deleteUserPage);
+router.post("/deleteProfile", deleteUserPermanently);
 
 module.exports = router;

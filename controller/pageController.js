@@ -167,6 +167,18 @@ const uploadProfileImagePage = (req, res) => {
   }, userId);
 };
 
+const deleteUserPage = (req, res) => {
+  if (!req.cookies.user) {
+    res.render("error", {
+      heading: "No User Found",
+      content: "Please log in.",
+      redirect: { desc: "Login", link: "/login" },
+    });
+  }
+  const user = req.cookies.user && JSON.parse(req.cookies.user);
+  return res.render("deleteprofile");
+};
+
 module.exports = {
   homePage,
   userLoginPage,
@@ -176,4 +188,5 @@ module.exports = {
   profilePage,
   editProfilePage,
   uploadProfileImagePage,
+  deleteUserPage,
 };
