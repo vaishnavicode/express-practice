@@ -104,7 +104,12 @@
           <tr>
             <th><label for="dob">DOB:</label></th>
             <td>
-              <input type="date" name="dob" value="<%= user.dob %>" />
+              <input
+                type="date"
+                name="dob"
+                value="<%= user.dob %>"
+                id="datepicker"
+              />
             </td>
           </tr>
           <% if (errors && errors.dob) { %>
@@ -143,5 +148,9 @@
         </table>
       </form>
     </center>
+    <script>
+      const today = new Date().toISOString().split("T")[0];
+      document.getElementById("datepicker").setAttribute("max", today);
+    </script>
   </body>
 </html>

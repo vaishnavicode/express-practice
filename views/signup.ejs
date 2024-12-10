@@ -127,6 +127,7 @@
               <input
                 type="date"
                 name="dob"
+                id="datepicker"
                 value="<%= user ? user.dob : '' %>"
               />
             </td>
@@ -209,5 +210,9 @@
         </table>
       </form>
     </center>
+    <script>
+      const today = new Date().toISOString().split("T")[0];
+      document.getElementById("datepicker").setAttribute("max", today);
+    </script>
   </body>
 </html>
